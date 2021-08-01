@@ -31,25 +31,22 @@
               <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jComboBox1" min="-2" pref="254" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="btnChangeRole" min="-2" pref="124" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="jComboBox1" min="-2" pref="254" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnChangeRole" min="-2" pref="124" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="btnActivateUser" min="-2" pref="124" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnDeactivateUser" min="-2" pref="124" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnActivateUser" min="-2" pref="164" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="108" max="-2" attributes="0"/>
                       <Component id="btnDeleteUser" min="-2" pref="124" max="-2" attributes="0"/>
                       <EmptySpace pref="273" max="32767" attributes="0"/>
                       <Component id="btnAddUser" min="-2" pref="128" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -68,7 +65,6 @@
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnActivateUser" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                  <Component id="btnDeactivateUser" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                   <Component id="btnAddUser" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                   <Component id="btnDeleteUser" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
               </Group>
@@ -108,14 +104,6 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnChangeRoleActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnDeactivateUser">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Deactivate User"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeactivateUserActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JComboBox" name="jComboBox1">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -133,7 +121,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnActivateUser">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Activate User"/>
+        <Property name="text" type="java.lang.String" value="Toggle Active Status"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnActivateUserActionPerformed"/>

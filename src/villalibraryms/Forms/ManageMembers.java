@@ -47,7 +47,6 @@ public class ManageMembers extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         btnChangeRole = new javax.swing.JButton();
-        btnDeactivateUser = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         btnActivateUser = new javax.swing.JButton();
@@ -81,16 +80,9 @@ public class ManageMembers extends javax.swing.JFrame {
             }
         });
 
-        btnDeactivateUser.setText("Deactivate User");
-        btnDeactivateUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeactivateUserActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Change the role of selected user:");
 
-        btnActivateUser.setText("Activate User");
+        btnActivateUser.setText("Toggle Active Status");
         btnActivateUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActivateUserActionPerformed(evt);
@@ -120,22 +112,20 @@ public class ManageMembers extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnChangeRole, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnChangeRole, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnActivateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDeactivateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnActivateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(108, 108, 108)
                         .addComponent(btnDeleteUser, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 273, Short.MAX_VALUE)
                         .addComponent(btnAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42))))
+                        .addGap(42, 42, 42))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,7 +139,6 @@ public class ManageMembers extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnActivateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDeactivateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDeleteUser, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
@@ -167,17 +156,15 @@ public class ManageMembers extends javax.swing.JFrame {
         loadData();
     }//GEN-LAST:event_btnChangeRoleActionPerformed
 
-    private void btnDeactivateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeactivateUserActionPerformed
-
-        int selectedUserId = getSelectedUserId();
-        UserRepository.updateActiveStatus(selectedUserId, 0);
-        loadData();
-    }//GEN-LAST:event_btnDeactivateUserActionPerformed
-
     private void btnActivateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivateUserActionPerformed
-        int selectedUserId = getSelectedUserId();
-        UserRepository.updateActiveStatus(selectedUserId, 1);
-        loadData();
+        if (!jTable1.getSelectionModel().isSelectionEmpty()) {
+            int selectedUserId = getSelectedUserId();
+            String currentActiveStatus = jTable1.getValueAt(jTable1.getSelectedRow(), 4).toString();
+            int toggleMode = currentActiveStatus == "true" ? 0 : 1;
+            UserRepository.updateActiveStatus(selectedUserId, toggleMode);
+            loadData();
+        }
+
     }//GEN-LAST:event_btnActivateUserActionPerformed
 
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
@@ -227,7 +214,7 @@ public class ManageMembers extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private int getSelectedUserId() {
         return Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
     }
@@ -236,7 +223,6 @@ public class ManageMembers extends javax.swing.JFrame {
     private javax.swing.JButton btnActivateUser;
     private javax.swing.JButton btnAddUser;
     private javax.swing.JButton btnChangeRole;
-    private javax.swing.JButton btnDeactivateUser;
     private javax.swing.JButton btnDeleteUser;
     private javax.swing.JComboBox<Role> jComboBox1;
     private javax.swing.JLabel jLabel1;
