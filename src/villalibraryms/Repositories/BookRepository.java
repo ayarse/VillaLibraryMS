@@ -60,7 +60,7 @@ public class BookRepository {
             String[] barcodes,
             Boolean borrowable) {
 
-        int authorId = getAuthorIdByNameOrCreate(authorName);
+        int authorId = AuthorRepository.getAuthorIdByNameOrCreate(authorName);
 
         DBUtils.setStmt(SqlStatements.INSERT_BOOK);
         DBUtils.setObject(1, title, Types.VARCHAR);
@@ -88,6 +88,12 @@ public class BookRepository {
         }
     }
 
+    public static ResultSet findBookBy(String column, String value) {
+        DBUtils.setStmt(SqlStatements.SEARCH_BOOKS_COLUMNS + "INNER JOIN authors ON books.author_id = authors.id WHERE " + column + " LIKE ?");
+        DBUtils.setObject(1, "%" + value + "%", Types.VARCHAR);
+        return DBUtils.executeQuery();
+    }
+
     public static ResultSet findBookByTitle(String title) {
         DBUtils.setStmt(SqlStatements.BOOKS_BY_TITLE);
         DBUtils.setObject(1, "%" + title + "%", Types.VARCHAR);
@@ -95,20 +101,16 @@ public class BookRepository {
 
     }
 
-    public static ResultSet findBookBy(String column, String value) {
-        DBUtils.setStmt("SELECT books.id as ID, title as Title, authors.name as Author, isbn as ISBN, publisher as Publisher, number_of_pages as \"Number of Pages\", publication_year as \"Publication Year\" FROM books INNER JOIN authors ON books.author_id = authors.id WHERE " + column + " LIKE ?");
-        DBUtils.setObject(1, "%" + value + "%", Types.VARCHAR);
-        return DBUtils.executeQuery();
-    }
-
     public static ResultSet findBookByAuthor(String authorName) {
-        DBUtils.setStmt("SELECT books.id as ID, title as Title, authors.name as Author, isbn as ISBN, publisher as Publisher, number_of_pages as \"Number of Pages\", publication_year as \"Publication Year\" FROM books LEFT JOIN authors ON books.author_id = authors.id WHERE authors.name LIKE ?");
+        DBUtils.setStmt(SqlStatements.SEARCH_BOOKS_COLUMNS
+                + "LEFT JOIN authors ON books.author_id = authors.id WHERE authors.name LIKE ?");
         DBUtils.setObject(1, "%" + authorName + "%", Types.VARCHAR);
         return DBUtils.executeQuery();
     }
 
     public static ResultSet findBookBySubject(String subjectName) {
-        DBUtils.setStmt("SELECT books.id as ID, title as Title, authors.name as Author, isbn as ISBN, publisher as Publisher, number_of_pages as \"Number of Pages\", publication_year as \"Publication Year\" FROM books LEFT JOIN authors ON books.author_id = authors.id LEFT JOIN subjects ON books.subject_id = subjects.id WHERE subjects.name LIKE ?");
+        DBUtils.setStmt(SqlStatements.SEARCH_BOOKS_COLUMNS
+                + "LEFT JOIN authors ON books.author_id = authors.id LEFT JOIN subjects ON books.subject_id = subjects.id WHERE subjects.name LIKE ?");
         DBUtils.setObject(1, "%" + subjectName + "%", Types.VARCHAR);
         return DBUtils.executeQuery();
     }
@@ -134,27 +136,6 @@ public class BookRepository {
         DBUtils.setStmt("DELETE FROM books WHERE id = ?");
         DBUtils.setObject(1, bookId, Types.BIGINT);
         DBUtils.executeUpdate();
-    }
-
-    public static int getAuthorIdByNameOrCreate(String authorName) {
-        DBUtils.setStmt(SqlStatements.FIND_AUTHOR);
-        DBUtils.setObject(1, authorName, Types.VARCHAR);
-        ResultSet rs = DBUtils.executeQuery();
-
-        try {
-            if (rs.next()) {
-                return rs.getInt("id");
-            } else {
-                DBUtils.setStmt(SqlStatements.INSERT_AUTHOR);
-                DBUtils.setObject(1, authorName, Types.VARCHAR);
-                DBUtils.executeUpdate();
-                return getAuthorIdByNameOrCreate(authorName);
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return -1;
     }
 
 }
