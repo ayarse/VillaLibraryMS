@@ -59,6 +59,7 @@ public class AdminMenu extends javax.swing.JFrame {
         btnManageMembers = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Administrator Menu");
         setResizable(false);
 
         btnViewBooks.setText("View Books");
