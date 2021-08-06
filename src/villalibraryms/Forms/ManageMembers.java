@@ -22,6 +22,7 @@ import villalibraryms.Repositories.UserRepository;
 public class ManageMembers extends javax.swing.JFrame {
 
     private User selectedUser;
+    private String searchString = "";
 
     /**
      * Creates new form ManageMembers
@@ -32,7 +33,12 @@ public class ManageMembers extends javax.swing.JFrame {
     }
 
     private void loadData() {
-        ResultSet rs = UserRepository.getAllUsers();
+        ResultSet rs;
+        if (searchString.equals("")) {
+            rs = UserRepository.getAllUsers();
+        } else {
+            rs = UserRepository.getAllUsers(searchString);
+        }
         jTable1.setModel(DbUtils.resultSetToTableModel(rs));
         System.out.println("Data reloaded.");
     }
@@ -51,7 +57,7 @@ public class ManageMembers extends javax.swing.JFrame {
         btnActivateUser = new javax.swing.JButton();
         btnAddUser = new javax.swing.JButton();
         btnDeleteUser = new javax.swing.JButton();
-        btnActivateUser1 = new javax.swing.JButton();
+        btnEditUser = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         btnCancelMembership = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -62,6 +68,8 @@ public class ManageMembers extends javax.swing.JFrame {
         lblIssuedDateVal = new javax.swing.JLabel();
         lblExpiryDateVal = new javax.swing.JLabel();
         btnIssueMembershipCard = new javax.swing.JButton();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Manage Users");
@@ -110,10 +118,10 @@ public class ManageMembers extends javax.swing.JFrame {
             }
         });
 
-        btnActivateUser1.setText("Edit User");
-        btnActivateUser1.addActionListener(new java.awt.event.ActionListener() {
+        btnEditUser.setText("Edit User");
+        btnEditUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActivateUser1ActionPerformed(evt);
+                btnEditUserActionPerformed(evt);
             }
         });
 
@@ -155,58 +163,74 @@ public class ManageMembers extends javax.swing.JFrame {
             }
         });
 
+        btnSearch.setText("Search");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(393, 393, 393))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel1)
-                                .addGap(393, 393, 393))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel3))
-                                        .addGap(112, 112, 112)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblIssuedDateVal)
-                                            .addComponent(lblBarcodeVal)
-                                            .addComponent(lblExpiryDateVal)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnActivateUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnActivateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnDeleteUser, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnCancelMembership, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnIssueMembershipCard, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(43, 43, 43))
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3))
+                                .addGap(112, 112, 112)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblIssuedDateVal)
+                                    .addComponent(lblBarcodeVal)
+                                    .addComponent(lblExpiryDateVal)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnEditUser, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnActivateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnDeleteUser, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel2)
+                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnCancelMembership, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnIssueMembershipCard, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(43, 43, 43)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(43, 43, 43))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(btnAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActivateUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditUser, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnActivateUser, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDeleteUser, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
@@ -229,7 +253,7 @@ public class ManageMembers extends javax.swing.JFrame {
                         .addComponent(btnCancelMembership, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(46, 46, 46))
                     .addComponent(btnIssueMembershipCard, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -267,14 +291,14 @@ public class ManageMembers extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_btnDeleteUserActionPerformed
 
-    private void btnActivateUser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivateUser1ActionPerformed
+    private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
 
         ifSelected(() -> {
             new AddUser(getSelectedUserId()).setVisible(true);
 
         });
 
-    }//GEN-LAST:event_btnActivateUser1ActionPerformed
+    }//GEN-LAST:event_btnEditUserActionPerformed
 
     private void btnCancelMembershipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelMembershipActionPerformed
         ifSelected(() -> {
@@ -295,12 +319,23 @@ public class ManageMembers extends javax.swing.JFrame {
 
     private void btnIssueMembershipCardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIssueMembershipCardActionPerformed
         ifSelected(() -> {
-            
+
             UserRepository.newCard(getSelectedUserId());
             setSelectedUser(UserRepository.find(getSelectedUserId()));
             loadSelectedData();
         });
     }//GEN-LAST:event_btnIssueMembershipCardActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        searchString = txtSearch.getText();
+        ResultSet rs;
+        if(searchString.equals("")) {
+            rs = UserRepository.getAllUsers();
+        } else {
+            rs = UserRepository.getAllUsers(searchString);
+        }
+        jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     private void ifSelected(Runnable runnable) {
         if (!jTable1.getSelectionModel().isSelectionEmpty()) {
@@ -351,11 +386,12 @@ public class ManageMembers extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActivateUser;
-    private javax.swing.JButton btnActivateUser1;
     private javax.swing.JButton btnAddUser;
     private javax.swing.JButton btnCancelMembership;
     private javax.swing.JButton btnDeleteUser;
+    private javax.swing.JButton btnEditUser;
     private javax.swing.JButton btnIssueMembershipCard;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -366,6 +402,7 @@ public class ManageMembers extends javax.swing.JFrame {
     private javax.swing.JLabel lblBarcodeVal;
     private javax.swing.JLabel lblExpiryDateVal;
     private javax.swing.JLabel lblIssuedDateVal;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
     private void loadSelectedData() {

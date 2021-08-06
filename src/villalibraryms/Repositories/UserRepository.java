@@ -33,6 +33,13 @@ public class UserRepository {
         ResultSet rs = DBUtils.executeQuery();
         return rs;
     }
+    
+    public static ResultSet getAllUsers(String search) {
+        DBUtils.setStmt(SqlStatements.ALL_USERS_LIKE);
+        DBUtils.setObject(1, "%"+search+"%", Types.VARCHAR);
+        ResultSet rs = DBUtils.executeQuery();
+        return rs;
+    }
 
     public static List<Role> getAllRoles() {
         List<Role> allRoles = new ArrayList<>();

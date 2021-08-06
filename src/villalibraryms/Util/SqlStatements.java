@@ -42,6 +42,7 @@ public class SqlStatements {
 
     // Users
     public static final String ALL_USERS = "SELECT users.id as ID, display_name as \"Display Name\", username as Username, roles.name as Role, is_active as Active FROM users INNER JOIN roles ON users.role_id = roles.id";
+    public static final String ALL_USERS_LIKE = "SELECT users.id as ID, display_name as \"Display Name\", username as Username, roles.name as Role, is_active as Active FROM users INNER JOIN roles ON users.role_id = roles.id WHERE `display_name` LIKE ?";
     public static final String UPDATE_USER_ROLE = "UPDATE users SET role_id = ? WHERE id = ?";
     public static final String ALL_ROLES = "SELECT * FROM roles";
     public static final String INSERT_USER = "INSERT INTO users (`username`, `password`, `role_id`, `display_name`, `is_active`) VALUES (?,?,?,?,?)";
