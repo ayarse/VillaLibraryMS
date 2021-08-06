@@ -27,6 +27,7 @@ public class SqlStatements {
             +"(`title`, `author_id`, `subject_id`, `publication_year`, `rack_id`, `isbn`, `publisher`, `borrowable`, `number_of_pages`) "
             +"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     public static final String BOOK_BY_TITLE_AND_ISBN = "SELECT * FROM books WHERE title = ? AND isbn = ?";
+    public static final String SEARCH_BOOKS_COLUMNS = "SELECT books.id as ID, title as Title, authors.name as Author, isbn as ISBN, publisher as Publisher, number_of_pages as \"Number of Pages\", publication_year as \"Publication Year\" FROM books ";
     
     // Book Items
     public static final String INSERT_BOOK_ITEM = "INSERT INTO `LIBRARY`.`book_items` (`book_id`, `barcode`) VALUES (?, ?);";
@@ -40,10 +41,18 @@ public class SqlStatements {
     public static final String ALL_RACKS = "SELECT * FROM racks";
 
     // Users
-    public static final String ALL_USERS = "SELECT users.id, display_name as \"Display Name\", username as Username, roles.name as Role, is_active as Active FROM users INNER JOIN roles ON users.role_id = roles.id";
+    public static final String ALL_USERS = "SELECT users.id as ID, display_name as \"Display Name\", username as Username, roles.name as Role, is_active as Active FROM users INNER JOIN roles ON users.role_id = roles.id";
     public static final String UPDATE_USER_ROLE = "UPDATE users SET role_id = ? WHERE id = ?";
     public static final String ALL_ROLES = "SELECT * FROM roles";
     public static final String INSERT_USER = "INSERT INTO users (`username`, `password`, `role_id`, `display_name`, `is_active`) VALUES (?,?,?,?,?)";
     public static final String DELETE_USER = "DELETE FROM users WHERE id = ?";
+    public static final String UPDATE_USER = "UPDATE `users` SET `username` = ?, `password` = ?, `role_id` = ?, `display_name` = ?, `is_active` = ? WHERE id = ?";
+    public static final String UPDATE_USER_STATUS = "UPDATE users SET is_active = ? WHERE id = ?";
+    public static final String SELECT_USER = "SELECT * FROM `users` WHERE `id` = ?";
+    
+    // Membership Cards
+    public static final String GET_MEMBERSHIP_CARD = "SELECT * FROM `membership_cards` WHERE `user_id` = ? ORDER BY `issued_at` DESC LIMIT 1";
+    public static final String INSERT_MEMBERSHIP_CARD = "INSERT INTO `membership_cards` (`barcode`, `issued_at`, `expires_at`, `user_id`) VALUES (?,?,?,?)";
+    public static final String DELETE_MEMBERSHIP_CARD = "DELETE FROM `membership_cards` WHERE user_id = ?";
 
 }
