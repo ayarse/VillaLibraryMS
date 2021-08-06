@@ -7,6 +7,7 @@ package villalibraryms.Forms;
 
 import java.util.List;
 import villalibraryms.Models.Role;
+import villalibraryms.Models.User;
 import villalibraryms.Repositories.UserRepository;
 
 /**
@@ -18,18 +19,36 @@ public class AddUser extends javax.swing.JFrame {
     /**
      * Creates new form AddUser
      */
-    private String displayName = "";
-    private String username = "";
-    private String password = "";
     private Role role;
+    private User _user;
+    private List<Role> roles = UserRepository.getAllRoles();
+    private boolean editMode = false;
 
     public AddUser() {
         initComponents();
-        List<Role> roles = UserRepository.getAllRoles();
+
         roles.forEach(role -> {
             cmbRole.addItem(role);
         });
         role = roles.get(0);
+    }
+
+    public AddUser(int userId) {
+        initComponents();
+        this.editMode = true;
+        this._user = UserRepository.find(userId);
+        txtUsername.setText(_user.getUsername());
+        txtPassword.setText(_user.getPassword());
+        txtDisplayName.setText(_user.getDisplayName());
+        roles.forEach(role -> {
+            cmbRole.addItem(role);
+        });
+
+        role = (roles.stream().filter(role -> role.id == _user.getRoleId()).toList()).get(0);
+        cmbRole.setSelectedItem(role);
+
+        this.setTitle("Edit User");
+        btnAddUser.setText("Update User");
     }
 
     /**
@@ -124,14 +143,22 @@ public class AddUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
-        UserRepository.addUser(
-                txtUsername.getText(),
-                txtPassword.getText(),
-                txtDisplayName.getText(),
-                ((Role) cmbRole.getSelectedItem()),
-                true
-        );
-      this.dispose();
+        if (editMode) {
+            _user.setUsername(txtUsername.getText());
+            _user.setPassword(txtPassword.getText());
+            _user.setDisplayName(txtDisplayName.getText());
+            _user.setRole(((Role) cmbRole.getSelectedItem()));
+            UserRepository.updateUser(_user);
+        } else {
+            UserRepository.addUser(
+                    txtUsername.getText(),
+                    txtPassword.getText(),
+                    txtDisplayName.getText(),
+                    ((Role) cmbRole.getSelectedItem()),
+                    true
+            );
+        }
+        this.dispose();
     }//GEN-LAST:event_btnAddUserActionPerformed
 
     /**
