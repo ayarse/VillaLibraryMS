@@ -9,16 +9,14 @@ import villalibraryms.Util.SqlStatements;
 import villalibraryms.Forms.IssueBook;
 import villalibraryms.Forms.AddBook;
 import villalibraryms.Util.DBUtils;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.concurrent.TimeUnit;
 import javax.swing.*;
 import net.proteanit.sql.DbUtils;
 import villalibraryms.Forms.FindBooks;
+import villalibraryms.Forms.IssuedBooks;
 import villalibraryms.Forms.ManageMembers;
+import villalibraryms.Forms.ReturnBook;
+import villalibraryms.Forms.ViewFines;
 
 /**
  *
@@ -45,11 +43,8 @@ public class AdminMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnViewBooks = new javax.swing.JButton();
-        btnViewUsers = new javax.swing.JButton();
         btnViewIssuedBooks = new javax.swing.JButton();
         btnIssueBook = new javax.swing.JButton();
-        btnAddUser = new javax.swing.JButton();
         btnAddBook = new javax.swing.JButton();
         btnReturnBook = new javax.swing.JButton();
         btnResetDB = new javax.swing.JButton();
@@ -57,24 +52,11 @@ public class AdminMenu extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnFindBooks = new javax.swing.JButton();
         btnManageMembers = new javax.swing.JButton();
+        btnFines = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Administrator Menu");
         setResizable(false);
-
-        btnViewBooks.setText("View Books");
-        btnViewBooks.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewBooksActionPerformed(evt);
-            }
-        });
-
-        btnViewUsers.setText("View Users");
-        btnViewUsers.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewUsersActionPerformed(evt);
-            }
-        });
 
         btnViewIssuedBooks.setText("View Issued Books");
         btnViewIssuedBooks.addActionListener(new java.awt.event.ActionListener() {
@@ -87,13 +69,6 @@ public class AdminMenu extends javax.swing.JFrame {
         btnIssueBook.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIssueBookActionPerformed(evt);
-            }
-        });
-
-        btnAddUser.setText("Add User");
-        btnAddUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddUserActionPerformed(evt);
             }
         });
 
@@ -139,73 +114,77 @@ public class AdminMenu extends javax.swing.JFrame {
             }
         });
 
+        btnFines.setText("Fines");
+        btnFines.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(57, Short.MAX_VALUE)
+                .addContainerGap(205, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(btnIssueBook, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnReturnBook, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(162, 162, 162))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(btnViewUsers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnResetDB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(btnViewIssuedBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnViewBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(78, 78, 78)))
-                            .addComponent(jLabel2))
-                        .addGap(54, 54, 54))
+                        .addComponent(jLabel2)
+                        .addContainerGap(540, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(6, 6, 6)
+                        .addComponent(btnResetDB, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnFindBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnAddBook, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnAddBook, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(162, 162, 162))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(162, 162, 162)
-                                .addComponent(btnManageMembers, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(btnIssueBook, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnReturnBook, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnViewIssuedBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnManageMembers, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnFines, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(58, 58, 58))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(51, 51, 51)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnReturnBook, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnIssueBook, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnViewBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnViewIssuedBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnFindBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddBook, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(btnManageMembers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnReturnBook, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnIssueBook, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnViewIssuedBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnFindBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAddBook, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnManageMembers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnFines, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(147, 147, 147)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnResetDB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddUser, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnViewUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addComponent(btnResetDB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(246, Short.MAX_VALUE))
         );
 
         pack();
@@ -213,150 +192,13 @@ public class AdminMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnResetDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetDBActionPerformed
-        db.seed(); //Call create function
+//        db.seed(); //Call create function
         JOptionPane.showMessageDialog(null, "Database Created/Reset!"); //Open a dialog box and display the message
     }//GEN-LAST:event_btnResetDBActionPerformed
 
-    private void btnViewBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewBooksActionPerformed
-        JFrame f = new JFrame("Books Available");
-        //f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        String sql = SqlStatements.ALL_BOOKS; //select all books 
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            JTable book_list = new JTable(); //view data in table format
-            book_list.setModel(DbUtils.resultSetToTableModel(rs));
-            //mention scroll bar
-            JScrollPane scrollPane = new JScrollPane(book_list);
-
-            f.add(scrollPane); //add scrollpane
-            f.setSize(800, 400); //set size for frame
-            f.setVisible(true);
-            f.setLocationRelativeTo(null);
-        } catch (SQLException e1) {
-            // TODO Auto-generated catch block
-            JOptionPane.showMessageDialog(null, e1);
-        }
-    }//GEN-LAST:event_btnViewBooksActionPerformed
-
-    private void btnViewUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewUsersActionPerformed
-        JFrame f = new JFrame("Users List");
-        //f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        String sql = SqlStatements.ALL_USERS; //retrieve all users
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            JTable book_list = new JTable();
-            book_list.setModel(DbUtils.resultSetToTableModel(rs));
-            //mention scroll bar
-            JScrollPane scrollPane = new JScrollPane(book_list);
-
-            f.add(scrollPane); //add scrollpane
-            f.setSize(800, 400); //set size for frame
-            f.setVisible(true);
-            f.setLocationRelativeTo(null);
-        } catch (SQLException e1) {
-            // TODO Auto-generated catch block
-            JOptionPane.showMessageDialog(null, e1);
-        }
-    }//GEN-LAST:event_btnViewUsersActionPerformed
-
     private void btnViewIssuedBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewIssuedBooksActionPerformed
-        JFrame f = new JFrame("All Isseud List");
-        //f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        String sql = SqlStatements.ALL_ISSUED;
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            JTable book_list = new JTable();
-            book_list.setModel(DbUtils.resultSetToTableModel(rs));
-
-            JScrollPane scrollPane = new JScrollPane(book_list);
-
-            f.add(scrollPane);
-            f.setSize(800, 400);
-            f.setVisible(true);
-            f.setLocationRelativeTo(null);
-        } catch (SQLException e1) {
-            // TODO Auto-generated catch block
-            JOptionPane.showMessageDialog(null, e1);
-        }
+        new IssuedBooks().setVisible(true);
     }//GEN-LAST:event_btnViewIssuedBooksActionPerformed
-
-    private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
-        JFrame g = new JFrame("Enter User Details"); //Frame to enter user details
-        //g.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //Create label 
-        JLabel l1, l2;
-        l1 = new JLabel("Username");  //label 1 for username
-        l1.setBounds(30, 15, 100, 30);
-
-        l2 = new JLabel("Password");  //label 2 for password
-        l2.setBounds(30, 50, 100, 30);
-
-        //set text field for username 
-        JTextField F_user = new JTextField();
-        F_user.setBounds(110, 15, 200, 30);
-
-        //set text field for password
-        JPasswordField F_pass = new JPasswordField();
-        F_pass.setBounds(110, 50, 200, 30);
-        //set radio button for admin
-        JRadioButton a1 = new JRadioButton("Admin");
-        a1.setBounds(55, 80, 200, 30);
-        //set radio button for user
-        JRadioButton a2 = new JRadioButton("User");
-        a2.setBounds(130, 80, 200, 30);
-        //add radio buttons
-        ButtonGroup bg = new ButtonGroup();
-        bg.add(a1);
-        bg.add(a2);
-
-        JButton create_but = new JButton("Create");//creating instance of JButton for Create 
-        create_but.setBounds(130, 130, 80, 25);//x axis, y axis, width, height 
-        create_but.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-
-                String username = F_user.getText();
-                String password = F_pass.getText();
-                Boolean admin = false;
-
-                if (a1.isSelected()) {
-                    admin = true;
-                }
-
-                try {
-                    Statement stmt = connection.createStatement();
-                    stmt.executeUpdate("INSERT INTO USERS(USERNAME,PASSWORD,ADMIN) VALUES ('" + username + "','" + password + "'," + admin + ")");
-                    JOptionPane.showMessageDialog(null, "User added!");
-                    g.dispose();
-
-                } catch (SQLException e1) {
-                    // TODO Auto-generated catch block
-                    JOptionPane.showMessageDialog(null, e1);
-                }
-
-            }
-
-        });
-
-        g.add(create_but);
-        g.add(a2);
-        g.add(a1);
-        g.add(l1);
-        g.add(l2);
-        g.add(F_user);
-        g.add(F_pass);
-        g.setSize(350, 200);//400 width and 500 height  
-        g.setLayout(null);//using no layout managers  
-        g.setVisible(true);//making the frame visible 
-        g.setLocationRelativeTo(null);
-
-    }//GEN-LAST:event_btnAddUserActionPerformed
 
     private void btnAddBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBookActionPerformed
         new AddBook().setVisible(true);
@@ -364,182 +206,25 @@ public class AdminMenu extends javax.swing.JFrame {
 
     private void btnIssueBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIssueBookActionPerformed
         new IssueBook().setVisible(true);
-        JFrame g = new JFrame("Enter Details");
-        //g.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //create labels
-//        JLabel l1, l2, l3, l4;
-//        l1 = new JLabel("Book ID(BID)");  // Label 1 for Book ID
-//        l1.setBounds(30, 15, 100, 30);
-//
-//        l2 = new JLabel("User ID(UID)");  //Label 2 for user ID
-//        l2.setBounds(30, 53, 100, 30);
-//
-//        l3 = new JLabel("Period(days)");  //Label 3 for period
-//        l3.setBounds(30, 90, 100, 30);
-//
-//        l4 = new JLabel("Issued Date(DD-MM-YYYY)");  //Label 4 for issue date
-//        l4.setBounds(30, 127, 150, 30);
-//
-//        JTextField F_bid = new JTextField();
-//        F_bid.setBounds(110, 15, 200, 30);
-//
-//        JTextField F_uid = new JTextField();
-//        F_uid.setBounds(110, 53, 200, 30);
-//
-//        JTextField F_period = new JTextField();
-//        F_period.setBounds(110, 90, 200, 30);
-//
-//        JTextField F_issue = new JTextField();
-//        F_issue.setBounds(180, 130, 130, 30);
-//
-//        JButton create_but = new JButton("Submit");//creating instance of JButton  
-//        create_but.setBounds(130, 170, 80, 25);//x axis, y axis, width, height 
-//        create_but.addActionListener(new ActionListener() {
-//
-//            public void actionPerformed(ActionEvent e) {
-//
-//                String uid = F_uid.getText();
-//                String bid = F_bid.getText();
-//                String period = F_period.getText();
-//                String issued_date = F_issue.getText();
-//
-//                int period_int = Integer.parseInt(period);
-//
-//                try {
-//                    Statement stmt = connection.createStatement();
-//                    stmt.executeUpdate("INSERT INTO ISSUED(UID,BID,ISSUED_DATE,PERIOD) VALUES ('" + uid + "','" + bid + "','" + issued_date + "'," + period_int + ")");
-//                    JOptionPane.showMessageDialog(null, "Book Issued!");
-//                    g.dispose();
-//
-//                } catch (SQLException e1) {
-//                    // TODO Auto-generated catch block
-//                    JOptionPane.showMessageDialog(null, e1);
-//                }
-//
-//            }
-//
-//        });
-//
-//        g.add(l3);
-//        g.add(l4);
-//        g.add(create_but);
-//        g.add(l1);
-//        g.add(l2);
-//        g.add(F_uid);
-//        g.add(F_bid);
-//        g.add(F_period);
-//        g.add(F_issue);
-//        g.setSize(350, 250);//400 width and 500 height  
-//        g.setLayout(null);//using no layout managers  
-//        g.setVisible(true);//making the frame visible 
-//        g.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnIssueBookActionPerformed
 
     private void btnReturnBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnBookActionPerformed
-        JFrame g = new JFrame("Enter Details");
-        //g.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //set labels 
-        JLabel l1, l2, l3, l4;
-        l1 = new JLabel("Issue ID(IID)");  //Label 1 for Issue ID
-        l1.setBounds(30, 15, 100, 30);
-
-        l4 = new JLabel("Return Date(DD-MM-YYYY)");
-        l4.setBounds(30, 50, 150, 30);
-
-        JTextField F_iid = new JTextField();
-        F_iid.setBounds(110, 15, 200, 30);
-
-        JTextField F_return = new JTextField();
-        F_return.setBounds(180, 50, 130, 30);
-
-        JButton create_but = new JButton("Return");//creating instance of JButton to mention return date and calculcate fine
-        create_but.setBounds(130, 170, 80, 25);//x axis, y axis, width, height 
-        create_but.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-
-                String iid = F_iid.getText();
-                String return_date = F_return.getText();
-
-                try {
-                    Statement stmt = connection.createStatement();
-                    //Intialize date1 with NULL value
-                    String date1 = null;
-                    String date2 = return_date; //Intialize date2 with return date
-
-                    //select issue date
-                    ResultSet rs = stmt.executeQuery("SELECT ISSUED_DATE FROM ISSUED WHERE IID=" + iid);
-                    while (rs.next()) {
-                        date1 = rs.getString(1);
-
-                    }
-
-                    try {
-                        java.util.Date date_1 = new SimpleDateFormat("dd-MM-yyyy").parse(date1);
-                        java.util.Date date_2 = new SimpleDateFormat("dd-MM-yyyy").parse(date2);
-                        //subtract the dates and store in diff
-                        long diff = date_2.getTime() - date_1.getTime();
-                        //Convert diff from milliseconds to days
-                        VillaLibraryMS.ex.days = (int) (TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
-
-                    } catch (ParseException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-
-                    //update return date
-                    stmt.executeUpdate("UPDATE ISSUED SET RETURN_DATE='" + return_date + "' WHERE IID=" + iid);
-                    g.dispose();
-
-                    Statement stmt1 = connection.createStatement();
-                    ResultSet rs1 = stmt1.executeQuery("SELECT PERIOD FROM ISSUED WHERE IID=" + iid); //set period
-                    String diff = null;
-                    while (rs1.next()) {
-                        diff = rs1.getString(1);
-
-                    }
-                    int diff_int = Integer.parseInt(diff);
-                    if (VillaLibraryMS.ex.days > diff_int) { //If number of days are more than the period then calculcate fine
-
-                        //System.out.println(ex.days);
-                        int fine = (VillaLibraryMS.ex.days - diff_int) * 10; //fine for every day after the period is Rs 10.
-                        //update fine in the system
-                        stmt1.executeUpdate("UPDATE ISSUED SET FINE=" + fine + " WHERE IID=" + iid);
-                        String fine_str = ("Fine: Rs. " + fine);
-                        JOptionPane.showMessageDialog(null, fine_str);
-
-                    }
-
-                    JOptionPane.showMessageDialog(null, "Book Returned!");
-
-                } catch (SQLException e1) {
-                    // TODO Auto-generated catch block
-                    JOptionPane.showMessageDialog(null, e1);
-                }
-
-            }
-
-        });
-        g.add(l4);
-        g.add(create_but);
-        g.add(l1);
-        g.add(F_iid);
-        g.add(F_return);
-        g.setSize(350, 250);//400 width and 500 height  
-        g.setLayout(null);//using no layout managers  
-        g.setVisible(true);//making the frame visible 
-        g.setLocationRelativeTo(null);
+        new ReturnBook().setVisible(true);
     }//GEN-LAST:event_btnReturnBookActionPerformed
 
     private void btnFindBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindBooksActionPerformed
-        // TODO add your handling code here:
+
         new FindBooks().setVisible(true);
     }//GEN-LAST:event_btnFindBooksActionPerformed
 
     private void btnManageMembersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageMembersActionPerformed
-        // TODO add your handling code here:
+
         new ManageMembers().setVisible(true);
     }//GEN-LAST:event_btnManageMembersActionPerformed
+
+    private void btnFinesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinesActionPerformed
+        new ViewFines().setVisible(true);
+    }//GEN-LAST:event_btnFinesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -578,15 +263,13 @@ public class AdminMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddBook;
-    private javax.swing.JButton btnAddUser;
     private javax.swing.JButton btnFindBooks;
+    private javax.swing.JButton btnFines;
     private javax.swing.JButton btnIssueBook;
     private javax.swing.JButton btnManageMembers;
     private javax.swing.JButton btnResetDB;
     private javax.swing.JButton btnReturnBook;
-    private javax.swing.JButton btnViewBooks;
     private javax.swing.JButton btnViewIssuedBooks;
-    private javax.swing.JButton btnViewUsers;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables

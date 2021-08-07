@@ -5,9 +5,14 @@
  */
 package villalibraryms.Forms;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import javax.swing.JOptionPane;
 import villalibraryms.Models.Book;
+import villalibraryms.Models.BookItem;
+import villalibraryms.Models.User;
 import villalibraryms.Repositories.BookRepository;
+import villalibraryms.Repositories.UserRepository;
 
 /**
  *
@@ -15,15 +20,15 @@ import villalibraryms.Repositories.BookRepository;
  */
 public class IssueBook extends javax.swing.JFrame {
 
+    private User selectedUser;
+//    private boolean userCanBorrow = true;
+    private BookItem selectedBook;
+
     /**
      * Creates new form IssueBook
      */
     public IssueBook() {
         initComponents();
-        List<Book> books = BookRepository.getAllBooks();
-        for(Book book : books) {
-            jComboBox1.addItem(book.getTitle());
-        }
     }
 
     /**
@@ -35,30 +40,420 @@ public class IssueBook extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        txtBarcode = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        btnScanMember = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblMemberName = new javax.swing.JLabel();
+        lblMembershipStatus = new javax.swing.JLabel();
+        lblCardExpiry = new javax.swing.JLabel();
+        lblBookError = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtBookBarcode = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        btnScanBook = new javax.swing.JButton();
+        btnIssueBook = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        lblBookTitle = new javax.swing.JLabel();
+        lblBookAuthor = new javax.swing.JLabel();
+        lblBookIsbn = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        lblBookRack = new javax.swing.JLabel();
+        lblMemberError = new javax.swing.JLabel();
+        lblBookTotalCopies = new javax.swing.JLabel();
+        lblBookAvailableCopies = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Issue Book");
+
+        jLabel1.setText("Membership Card Barcode");
+
+        btnScanMember.setText("Scan");
+        btnScanMember.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnScanMemberActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel2.setText("Member Name");
+
+        jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel3.setText("Membership Status");
+        jLabel3.setToolTipText("");
+
+        jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel4.setText("Card Expiry");
+        jLabel4.setToolTipText("");
+
+        jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel5.setText("Member Details");
+
+        lblMemberName.setText("-");
+
+        lblMembershipStatus.setText("-");
+        lblMembershipStatus.setToolTipText("");
+
+        lblCardExpiry.setText("-");
+        lblCardExpiry.setToolTipText("");
+
+        lblBookError.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        lblBookError.setForeground(new java.awt.Color(255, 0, 51));
+        lblBookError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblBookError.setText(" ");
+        lblBookError.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jLabel6.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel6.setText("Book Details");
+
+        jLabel7.setText("Book Barcode");
+
+        btnScanBook.setText("Scan");
+        btnScanBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnScanBookActionPerformed(evt);
+            }
+        });
+
+        btnIssueBook.setText("Issue Book");
+        btnIssueBook.setToolTipText("");
+        btnIssueBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIssueBookActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel8.setText("Book Title");
+
+        jLabel9.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel9.setText("Author");
+        jLabel9.setToolTipText("");
+
+        jLabel10.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel10.setText("ISBN");
+        jLabel10.setToolTipText("");
+
+        lblBookTitle.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblBookTitle.setText("-");
+        lblBookTitle.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        lblBookAuthor.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblBookAuthor.setText("-");
+        lblBookAuthor.setToolTipText("");
+        lblBookAuthor.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        lblBookIsbn.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblBookIsbn.setText("-");
+        lblBookIsbn.setToolTipText("");
+        lblBookIsbn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jLabel11.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel11.setText("Rack");
+        jLabel11.setToolTipText("");
+
+        jLabel12.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel12.setText("Total Copies");
+        jLabel12.setToolTipText("");
+
+        jLabel13.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        jLabel13.setText("Available Copies");
+        jLabel13.setToolTipText("");
+
+        lblBookRack.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblBookRack.setText("-");
+        lblBookRack.setToolTipText("");
+        lblBookRack.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        lblMemberError.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        lblMemberError.setForeground(new java.awt.Color(255, 0, 51));
+        lblMemberError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblMemberError.setText(" ");
+        lblMemberError.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        lblBookTotalCopies.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblBookTotalCopies.setText("-");
+        lblBookTotalCopies.setToolTipText("");
+        lblBookTotalCopies.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        lblBookAvailableCopies.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblBookAvailableCopies.setText("-");
+        lblBookAvailableCopies.setToolTipText("");
+        lblBookAvailableCopies.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnIssueBook, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(167, 167, 167))
             .addGroup(layout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addGap(64, 64, 64)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(lblMemberError, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel1)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel3))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(lblCardExpiry)
+                                            .addComponent(lblMemberName)
+                                            .addComponent(lblMembershipStatus)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnScanMember, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel6)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(txtBookBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(btnScanBook, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(11, 11, 11))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel11)
+                                .addComponent(jLabel10)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel12)
+                                .addComponent(jLabel13))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(lblBookIsbn)
+                                .addComponent(lblBookTitle)
+                                .addComponent(lblBookAuthor)
+                                .addComponent(lblBookRack)
+                                .addComponent(lblBookTotalCopies)
+                                .addComponent(lblBookAvailableCopies))
+                            .addGap(23, 23, 23)))
+                    .addComponent(lblBookError, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(66, 66, 66)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(401, Short.MAX_VALUE))
+                .addGap(67, 67, 67)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnScanMember, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(lblMemberName))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(lblMembershipStatus))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(lblCardExpiry))
+                .addGap(18, 18, 18)
+                .addComponent(lblMemberError)
+                .addGap(40, 40, 40)
+                .addComponent(jLabel6)
+                .addGap(9, 9, 9)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnScanBook, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBookBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(lblBookTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(lblBookAuthor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(lblBookIsbn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(lblBookRack, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(lblBookTotalCopies, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(lblBookAvailableCopies, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(33, 33, 33)
+                .addComponent(lblBookError)
+                .addGap(18, 18, 18)
+                .addComponent(btnIssueBook, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnScanMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScanMemberActionPerformed
+        String barcode = txtBarcode.getText();
+        clearLabels();
+        setMemberError("");
+        if (barcode.equals("")) {
+            return;
+        }
+
+        User user = UserRepository.findUserByBarcode(barcode);
+        if (user != null) {
+            setLabels(
+                    user.getDisplayName(),
+                    user.isIsActive(),
+                    user.getMembershipCard().getExpiresAt().toString()
+            );
+            validateUser(user);
+        } else {
+            clearLabels();
+            setMemberError("User not found.");
+        }
+    }//GEN-LAST:event_btnScanMemberActionPerformed
+
+    private void btnScanBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScanBookActionPerformed
+        String barcode = txtBookBarcode.getText();
+        clearBookLabels();
+        setBookError("");
+        selectedBook = null;
+        if (barcode.equals("")) {
+            return;
+        }
+        BookItem book = BookRepository.findBookByBarcode(barcode);
+        if (book != null) {
+            Integer availableCopies = BookRepository.availableCopies(book.getId());
+            setBookLabels(
+                    book.getTitle(),
+                    book.getAuthor().getName(),
+                    book.getIsbn(),
+                    book.getRack().location,
+                    String.valueOf(book.getTotalCopies()),
+                    availableCopies.toString()
+            );
+            validateBook(book);
+        } else {
+            clearBookLabels();
+            setBookError("Book not found.");
+        }
+
+    }//GEN-LAST:event_btnScanBookActionPerformed
+
+    private boolean validateBook(BookItem book) {
+        if (!book.isAvailable()) {
+            setBookError("This copy of this book is not available.");
+            selectedBook = null;
+            return false;
+        }
+        if (book.getBorrowable() == false) {
+            setBookError("This book is reference only.");
+            selectedBook = null;
+            return false;
+        }
+        selectedBook = book;
+        return true;
+    }
+
+    private boolean validateUser(User user) {
+        LocalDate expiresLocal = user.getMembershipCard()
+                .getExpiresAt()
+                .toLocalDate();
+        
+        if (user.isIsActive() == false) {
+            selectedUser = null;
+            setMemberError("This user has been deactivated. Please activate user first.");
+            return false;
+        }
+
+        if (expiresLocal.isBefore(LocalDate.now())) {
+            selectedUser = null;
+            setMemberError("Membership Card has expired. Issue new card.");
+            return false;
+        }
+        
+        if(BookRepository.borrowedCount(user.getId()) >= 4) {
+            selectedUser = null;
+            setMemberError("Member cannot borrow more than 4 books.");
+            return false;
+        }
+        selectedUser = user;
+        return true;
+    }
+
+    private void btnIssueBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIssueBookActionPerformed
+
+        if (selectedUser != null & selectedBook != null) {
+            BookRepository.issueBook(selectedBook, selectedUser);
+            JOptionPane.showMessageDialog(null, "Book has been issued!");
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Book cannot be issued to this user.");
+        }
+    }//GEN-LAST:event_btnIssueBookActionPerformed
+
+    private void setLabels(String name, boolean status, String expiry) {
+        lblMemberName.setText(name);
+        lblMembershipStatus.setText(status ? "Active" : "Inactive");
+        lblCardExpiry.setText(expiry);
+    }
+
+    private void setBookLabels(String title, String authorName, String isbn, String rack, String totalCopies, String availableCopies) {
+        lblBookTitle.setText(title);
+        lblBookAuthor.setText(authorName);
+        lblBookIsbn.setText(isbn);
+        lblBookRack.setText(rack);
+        lblBookTotalCopies.setText(totalCopies);
+        lblBookAvailableCopies.setText(availableCopies);
+    }
+
+    private void clearBookLabels() {
+        lblBookTitle.setText("-");
+        lblBookAuthor.setText("-");
+        lblBookIsbn.setText("-");
+        lblBookRack.setText("-");
+        lblBookTotalCopies.setText("-");
+        lblBookAvailableCopies.setText("-");
+    }
+
+    private void clearLabels() {
+        lblMemberName.setText("-");
+        lblMembershipStatus.setText("-");
+        lblCardExpiry.setText("-");
+    }
+
+    private void setMemberError(String errorText) {
+        lblMemberError.setText(errorText);
+    }
+
+    private void setBookError(String errorText) {
+        lblBookError.setText(errorText);
+    }
 
     /**
      * @param args the command line arguments
@@ -96,6 +491,35 @@ public class IssueBook extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnIssueBook;
+    private javax.swing.JButton btnScanBook;
+    private javax.swing.JButton btnScanMember;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel lblBookAuthor;
+    private javax.swing.JLabel lblBookAvailableCopies;
+    private javax.swing.JLabel lblBookError;
+    private javax.swing.JLabel lblBookIsbn;
+    private javax.swing.JLabel lblBookRack;
+    private javax.swing.JLabel lblBookTitle;
+    private javax.swing.JLabel lblBookTotalCopies;
+    private javax.swing.JLabel lblCardExpiry;
+    private javax.swing.JLabel lblMemberError;
+    private javax.swing.JLabel lblMemberName;
+    private javax.swing.JLabel lblMembershipStatus;
+    private javax.swing.JTextField txtBarcode;
+    private javax.swing.JTextField txtBookBarcode;
     // End of variables declaration//GEN-END:variables
 }

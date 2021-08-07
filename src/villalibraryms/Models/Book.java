@@ -11,6 +11,22 @@ package villalibraryms.Models;
  */
 public class Book {
 
+    private int id;
+    private int rack_id;
+    private int subject_id;
+    private int author_id;
+    private String title;
+    private String publication_year;
+    private Boolean borrowable;
+    private String isbn;
+    private String publisher;
+    private int numberOfPages;
+    private int totalCopies;
+
+    private Rack rack;
+    private Author author;
+    private Subject subject;
+
     public Book(int id, int rack_id, int subject_id, int author_id, String title, String publication_year, Boolean borrowable, String isbn, String publisher, int numberOfPages) {
         this.id = id;
         this.rack_id = rack_id;
@@ -22,6 +38,44 @@ public class Book {
         this.isbn = isbn;
         this.publisher = publisher;
         this.numberOfPages = numberOfPages;
+    }
+
+    public Book(int id, Rack rack, Subject subject, Author author, String title, String publication_year, Boolean borrowable, String isbn, String publisher, int numberOfPages, int totalCopies) {
+        this.id = id;
+        this.rack = rack;
+        this.subject = subject;
+        this.author = author;
+        this.title = title;
+        this.publication_year = publication_year;
+        this.borrowable = borrowable;
+        this.isbn = isbn;
+        this.publisher = publisher;
+        this.numberOfPages = numberOfPages;
+        this.totalCopies = totalCopies;
+    }
+
+    public Rack getRack() {
+        return rack;
+    }
+
+    public void setRack(Rack rack) {
+        this.rack = rack;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     public int getId() {
@@ -104,15 +158,12 @@ public class Book {
         this.numberOfPages = numberOfPages;
     }
 
-    private int id;
-    private int rack_id;
-    private int subject_id;
-    private int author_id;
-    private String title;
-    private String publication_year;
-    private Boolean borrowable;
-    private String isbn;
-    private String publisher;
-    private int numberOfPages;
+    public int getTotalCopies() {
+        return totalCopies;
+    }
+
+    public void setTotalCopies(int totalCopies) {
+        this.totalCopies = totalCopies;
+    }
 
 }

@@ -87,6 +87,20 @@ public class UserRepository {
         }
         return null;
     }
+    
+    public static User findUserByBarcode(String barcode) {
+        DBUtils.setStmt("SELECT `user_id` FROM `membership_cards` WHERE `barcode` = ?");
+        DBUtils.setObject(1, barcode, Types.VARCHAR);
+        ResultSet rs = DBUtils.executeQuery();
+        try {
+            if(rs.next()) {
+                return find(rs.getInt("user_id"));
+            }
+        } catch (SQLException ex) {
+            return null;
+        }
+        return null;
+    }
 
     public static void updateUser(User user) {
         DBUtils.setStmt(SqlStatements.UPDATE_USER);
