@@ -69,28 +69,28 @@ public class BookRepository {
     }
 
     public static ResultSet findBookBy(String column, String value) {
-        DBUtils.setStmt(SqlStatements.SEARCH_BOOKS_COLUMNS + "INNER JOIN authors ON books.author_id = authors.id WHERE " + column + " LIKE ?");
+        DBUtils.setStmt(SqlStatements.BOOKITEMS_BY + " WHERE " + column + " LIKE ?");
         DBUtils.setObject(1, "%" + value + "%", Types.VARCHAR);
         return DBUtils.executeQuery();
     }
 
     public static ResultSet findBookByTitle(String title) {
-        DBUtils.setStmt(SqlStatements.BOOKS_BY_TITLE);
+        String sql = SqlStatements.BOOKITEMS_BY;
+        sql = sql + "WHERE books.title LIKE ?";
+        DBUtils.setStmt(sql);
         DBUtils.setObject(1, "%" + title + "%", Types.VARCHAR);
         return DBUtils.executeQuery();
 
     }
 
     public static ResultSet findBookByAuthor(String authorName) {
-        DBUtils.setStmt(SqlStatements.SEARCH_BOOKS_COLUMNS
-                + "LEFT JOIN authors ON books.author_id = authors.id WHERE authors.name LIKE ?");
+        DBUtils.setStmt(SqlStatements.BOOKITEMS_BY + " WHERE authors.name LIKE ?");
         DBUtils.setObject(1, "%" + authorName + "%", Types.VARCHAR);
         return DBUtils.executeQuery();
     }
 
     public static ResultSet findBookBySubject(String subjectName) {
-        DBUtils.setStmt(SqlStatements.SEARCH_BOOKS_COLUMNS
-                + "LEFT JOIN authors ON books.author_id = authors.id LEFT JOIN subjects ON books.subject_id = subjects.id WHERE subjects.name LIKE ?");
+        DBUtils.setStmt(SqlStatements.BOOKITEMS_BY + " WHERE subjects.name LIKE ?");
         DBUtils.setObject(1, "%" + subjectName + "%", Types.VARCHAR);
         return DBUtils.executeQuery();
     }
@@ -117,47 +117,46 @@ public class BookRepository {
         }
         return null;
     }
-    
+
     public static ResultSet issuedBooks(boolean onlyReturned) {
         String sql = "SELECT borrows.id as ID, books.title as Title, authors.`name` as Author, books.isbn as ISBN, book_items.barcode as Barcode, "
-                        + "books.publisher as Publisher, users.display_name as \"Borrowed By\", borrows.borrowed_date as \"Borrowed Date\", "
-                        + "(CASE WHEN borrows.returned_date IS NOT NULL THEN \"Yes\" ELSE \"No\" END) as \"Returned\" FROM borrows "
-                        + "LEFT JOIN book_items ON borrows.book_item_id = book_items.id " 
-                        + "LEFT JOIN books on book_items.book_id = books.id "
-                        + "LEFT JOIN authors ON books.author_id = authors.id "
-                        + "LEFT JOIN users ON users.id = borrows.user_id ";
-        if(onlyReturned) {
+                + "books.publisher as Publisher, users.display_name as \"Borrowed By\", borrows.borrowed_date as \"Borrowed Date\", "
+                + "(CASE WHEN borrows.returned_date IS NOT NULL THEN \"Yes\" ELSE \"No\" END) as \"Returned\" FROM borrows "
+                + "LEFT JOIN book_items ON borrows.book_item_id = book_items.id "
+                + "LEFT JOIN books on book_items.book_id = books.id "
+                + "LEFT JOIN authors ON books.author_id = authors.id "
+                + "LEFT JOIN users ON users.id = borrows.user_id ";
+        if (onlyReturned) {
             sql = sql + "WHERE borrows.returned_date IS NULL ORDER BY borrows.borrowed_date DESC";
         } else {
             sql = sql + "ORDER BY borrows.borrowed_date DESC";
         }
-                        
-        
+
         DBUtils.setStmt(sql);
         return DBUtils.executeQuery();
     }
-    
+
     public static ResultSet issuedBooks(String searchStr) {
         String sql = "SELECT borrows.id as ID, books.title as Title, authors.`name` as Author, books.isbn as ISBN, book_items.barcode as Barcode, "
-                        + "books.publisher as Publisher, users.display_name as \"Borrowed By\", borrows.borrowed_date as \"Borrowed Date\", "
-                        + "(CASE WHEN borrows.returned_date IS NOT NULL THEN \"Yes\" ELSE \"No\" END) as \"Returned\" FROM borrows "
-                        + "LEFT JOIN book_items ON borrows.book_item_id = book_items.id " 
-                        + "LEFT JOIN books on book_items.book_id = books.id "
-                        + "LEFT JOIN authors ON books.author_id = authors.id "
-                        + "LEFT JOIN users ON users.id = borrows.user_id "
-                        + "WHERE users.display_name LIKE ? ORDER BY borrows.borrowed_date DESC";
-                 
+                + "books.publisher as Publisher, users.display_name as \"Borrowed By\", borrows.borrowed_date as \"Borrowed Date\", "
+                + "(CASE WHEN borrows.returned_date IS NOT NULL THEN \"Yes\" ELSE \"No\" END) as \"Returned\" FROM borrows "
+                + "LEFT JOIN book_items ON borrows.book_item_id = book_items.id "
+                + "LEFT JOIN books on book_items.book_id = books.id "
+                + "LEFT JOIN authors ON books.author_id = authors.id "
+                + "LEFT JOIN users ON users.id = borrows.user_id "
+                + "WHERE users.display_name LIKE ? ORDER BY borrows.borrowed_date DESC";
+
         DBUtils.setStmt(sql);
-        DBUtils.setObject(1, "%"+searchStr+"%", Types.VARCHAR);
+        DBUtils.setObject(1, "%" + searchStr + "%", Types.VARCHAR);
         return DBUtils.executeQuery();
     }
-    
+
     public static int borrowedCount(int userId) {
         DBUtils.setStmt("SELECT COUNT(*) AS count FROM `borrows` WHERE `user_id` = ? AND `returned_date` IS NULL");
         DBUtils.setObject(1, userId, Types.BIGINT);
         ResultSet rs = DBUtils.executeQuery();
         try {
-            if(rs.next()) {
+            if (rs.next()) {
                 int count = rs.getInt("count");
                 return count;
             }
@@ -306,20 +305,43 @@ public class BookRepository {
         DBUtils.setObject(1, bookId, Types.BIGINT);
         DBUtils.executeUpdate();
     }
-    
+
     public static void returnBook(Borrow borrow, LocalDate date) {
         DBUtils.setStmt("UPDATE `borrows` SET `returned_date` = ? WHERE `id` = ?");
         DBUtils.setObject(1, date, Types.DATE);
         DBUtils.setObject(2, borrow.getId(), Types.BIGINT);
         DBUtils.executeUpdate();
     }
-    
+
     public static void createFine(Borrow borrow, LocalDate fineDate, double fineAmount) {
         DBUtils.setStmt("INSERT INTO `fines` (`borrow_id`, `fine_date`, `fine_amount`) VALUES (?, ?, ?)");
         DBUtils.setObject(1, borrow.getId(), Types.BIGINT);
         DBUtils.setObject(2, fineDate, Types.DATE);
         DBUtils.setObject(3, fineAmount, Types.DOUBLE);
         DBUtils.executeUpdate();
+    }
+
+    public static void reserveBook(int bookItemId, int userId) {
+        DBUtils.setStmt("INSERT INTO `reservations` (`book_item_id`, `user_id`, `reservation_date`) VALUES (?, ?, ?)");
+        DBUtils.setObject(1, bookItemId, Types.BIGINT);
+        DBUtils.setObject(2, userId, Types.BIGINT);
+        DBUtils.setObject(3, LocalDate.now(), Types.DATE);
+        DBUtils.executeUpdate();
+    }
+
+    public static boolean reservationExists(int bookItemId, int userId) {
+        DBUtils.setStmt("SELECT id FROM `reservations` WHERE `book_item_id` = ? AND `user_id` = ?");
+        DBUtils.setObject(1, bookItemId, Types.BIGINT);
+        DBUtils.setObject(2, userId, Types.BIGINT);
+        ResultSet rs = DBUtils.executeQuery();
+        try {
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BookRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
 }

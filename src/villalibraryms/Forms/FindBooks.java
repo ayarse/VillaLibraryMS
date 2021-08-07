@@ -7,7 +7,10 @@ package villalibraryms.Forms;
 
 import villalibraryms.Repositories.BookRepository;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import villalibraryms.VillaLibraryMS;
+import villalibraryms.VillaLibraryMS.SessionData;
 
 /**
  *
@@ -57,6 +60,7 @@ public class FindBooks extends javax.swing.JFrame {
         rdSubject = new javax.swing.JRadioButton();
         rdPubYear = new javax.swing.JRadioButton();
         btnSearch = new javax.swing.JButton();
+        btnDelete1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -122,11 +126,18 @@ public class FindBooks extends javax.swing.JFrame {
             }
         });
 
+        btnDelete1.setText("Reserve This Book");
+        btnDelete1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelete1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1199, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,7 +146,7 @@ public class FindBooks extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jTextField1)
                                 .addGap(25, 25, 25)
                                 .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -147,9 +158,10 @@ public class FindBooks extends javax.swing.JFrame {
                                 .addComponent(rdSubject)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(rdPubYear)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 359, Short.MAX_VALUE)
-                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnDelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(38, 38, 38))))
         );
         layout.setVerticalGroup(
@@ -161,16 +173,21 @@ public class FindBooks extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rdTitle)
+                            .addComponent(rdAuthor)
+                            .addComponent(rdSubject)
+                            .addComponent(rdPubYear)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDelete1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdTitle)
-                    .addComponent(rdAuthor)
-                    .addComponent(rdSubject)
-                    .addComponent(rdPubYear))
-                .addGap(3, 3, 3)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE))
         );
 
         pack();
@@ -180,7 +197,7 @@ public class FindBooks extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         int selectedRow = jTable1.getSelectedRow();
-        int bookId = Integer.parseInt((String)jTable1.getValueAt(selectedRow, 0).toString());
+        int bookId = Integer.parseInt((String) jTable1.getValueAt(selectedRow, 1).toString());
         BookRepository.deleteBook(bookId);
         btnSearch.doClick();
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -217,7 +234,7 @@ public class FindBooks extends javax.swing.JFrame {
         // TODO add your handling code here:
         String searchString = jTextField1.getText();
         ResultSet rs;
-        switch(searchMode) {
+        switch (searchMode) {
             default:
             case TITLE:
                 rs = BookRepository.findBookBy("title", searchString);
@@ -234,6 +251,24 @@ public class FindBooks extends javax.swing.JFrame {
         }
         jTable1.setModel(DbUtils.resultSetToTableModel(rs));
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnDelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete1ActionPerformed
+        int bookItemId = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+        int bookId = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+        int availableCopies = BookRepository.availableCopies(bookId);
+        System.out.println(availableCopies);
+        if(BookRepository.reservationExists(bookItemId, Integer.parseInt(SessionData.Uid))) {
+            JOptionPane.showMessageDialog(null, "You've already reserved this book");
+            return;
+        }
+        if (availableCopies > 0) {
+            JOptionPane.showMessageDialog(null, "Cannot reserve while there are available copies!");
+        } else {
+
+            BookRepository.reserveBook(bookItemId, Integer.parseInt(SessionData.Uid));
+            JOptionPane.showMessageDialog(null, "Reserved!");
+        }
+    }//GEN-LAST:event_btnDelete1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -272,6 +307,7 @@ public class FindBooks extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDelete1;
     private javax.swing.JButton btnSearch;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;

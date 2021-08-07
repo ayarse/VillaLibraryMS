@@ -31,6 +31,13 @@ public class SqlStatements {
     
     // Book Items
     public static final String INSERT_BOOK_ITEM = "INSERT INTO `LIBRARY`.`book_items` (`book_id`, `barcode`) VALUES (?, ?);";
+    public static final String BOOKITEMS_BY = "SELECT book_items.id as \"Copy ID\", books.id as \"Book ID\", books.title as Title, authors.name as Author, books.isbn as ISBN, book_items.barcode as Barcode, "
+                + "publication_year as \"Publication Year\", books.publisher as Publisher, number_of_pages as \"Pages\", racks.`location` as \"Rack\", subjects.name as Subject "
+                + "FROM book_items\n"
+                + "LEFT JOIN books ON books.id = book_items.book_id "
+                + "LEFT JOIN authors ON books.author_id = authors.id "
+                + "LEFT JOIN racks ON racks.id = books.rack_id "
+                + "LEFT JOIN subjects on books.subject_id = subjects.id";
     
     // Author
     public static final String FIND_AUTHOR = "SELECT * FROM authors WHERE `name` = ?";
