@@ -7,6 +7,7 @@ import com.github.javafaker.Faker;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.SQLException;
+import villalibraryms.Models.User;
 
 /**
  *
@@ -23,6 +24,7 @@ public class VillaLibraryMS {
 
         public static String loggedInUsername;
         public static String Uid;
+        public static User currentUser;
     }
 
     protected static DBUtils db;

@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import java.sql.Connection;
 import villalibraryms.AdminMenu;
 import villalibraryms.Models.Role;
+import villalibraryms.Repositories.UserRepository;
 import villalibraryms.Util.SqlStatements;
 import villalibraryms.UserMenu;
 import villalibraryms.VillaLibraryMS;
@@ -117,8 +118,8 @@ public class LoginForm extends javax.swing.JFrame {
         String username = txtUsername.getText();
         String password = new String(txtPassword.getPassword());
         
-         username = "admin";
-         password = "admin";
+//         username = "admin";
+//         password = "admin";
 
         if (username.equals("")) //If username is null
         {
@@ -147,7 +148,8 @@ public class LoginForm extends javax.swing.JFrame {
                         String userId = rs.getString("id"); //Get user ID of the user.
                         VillaLibraryMS.SessionData.loggedInUsername = username;
                         VillaLibraryMS.SessionData.Uid = userId;
-
+                        VillaLibraryMS.SessionData.currentUser = UserRepository.find(Integer.parseInt(userId));
+                        
                         if (userRole.name.equals("admin")) {
                             new AdminMenu().setVisible(true);
                         } else {

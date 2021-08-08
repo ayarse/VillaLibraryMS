@@ -55,30 +55,62 @@ public class MiscRepository {
         }
         return racks;
     }
-    
+
     public static ResultSet getAllFines(String searchStr) {
         String sql = "SELECT fines.id as ID, books.title as Title, book_items.barcode as Barcode, fines.fine_date as \"Fined Date\", "
-                    + "borrows.borrowed_date as \"Borrowed Date\", borrows.returned_date as \"Returned Date\", fine_amount as \"Fine Amount\", "
-                    + "fines.paid as Paid, fines.paid_date as \"Paid Date\", users.display_name as \"Member Name\" FROM fines "
-                    + "LEFT JOIN borrows ON borrows.id = fines.borrow_id "
-                    + "LEFT JOIN book_items ON borrows.book_item_id = book_items.id "
-                    + "LEFT JOIN books ON book_items.book_id = books.id "
-                    + "LEFT JOIN users ON borrows.user_id = users.id";
-        if(!searchStr.equals("")) {
-                sql = sql + " WHERE users.display_name LIKE ?";
+                + "borrows.borrowed_date as \"Borrowed Date\", borrows.returned_date as \"Returned Date\", fine_amount as \"Fine Amount\", "
+                + "fines.paid as Paid, fines.paid_date as \"Paid Date\", users.display_name as \"Member Name\" FROM fines "
+                + "LEFT JOIN borrows ON borrows.id = fines.borrow_id "
+                + "LEFT JOIN book_items ON borrows.book_item_id = book_items.id "
+                + "LEFT JOIN books ON book_items.book_id = books.id "
+                + "LEFT JOIN users ON borrows.user_id = users.id";
+        if (!searchStr.equals("")) {
+            sql = sql + " WHERE users.display_name LIKE ?";
         }
         DBUtils.setStmt(sql);
-        if(!searchStr.equals("")) {
-            DBUtils.setObject(1, "%"+searchStr+"%", Types.VARCHAR);
+        if (!searchStr.equals("")) {
+            DBUtils.setObject(1, "%" + searchStr + "%", Types.VARCHAR);
         }
         return DBUtils.executeQuery();
     }
-    
+
     public static void settleFine(int fineId) {
         String sql = "UPDATE `fines` SET `paid` = true, paid_date = ? WHERE id = ?";
         DBUtils.setStmt(sql);
         DBUtils.setObject(1, LocalDate.now(), Types.DATE);
         DBUtils.setObject(2, fineId, Types.BIGINT);
+        DBUtils.executeUpdate();
+    }
+
+    public static ResultSet myFines(int userId) {
+        String sql = "SELECT fines.id as ID, books.title as Title, book_items.barcode as Barcode, fines.fine_date as \"Fined Date\", "
+                + "borrows.borrowed_date as \"Borrowed Date\", borrows.returned_date as \"Returned Date\", fine_amount as \"Fine Amount\", "
+                + "fines.paid as Paid, fines.paid_date as \"Paid Date\", users.display_name as \"Member Name\" FROM fines "
+                + "LEFT JOIN borrows ON borrows.id = fines.borrow_id "
+                + "LEFT JOIN book_items ON borrows.book_item_id = book_items.id "
+                + "LEFT JOIN books ON book_items.book_id = books.id "
+                + "LEFT JOIN users ON borrows.user_id = users.id "
+                + "WHERE users.id = ?";
+        DBUtils.setStmt(sql);
+        DBUtils.setObject(1, userId, Types.BIGINT);
+        return DBUtils.executeQuery();
+    }
+    
+    public static ResultSet myReservations(int userId) {
+        String sql = "SELECT reservations.id as ID, books.title as Title, book_items.barcode as Barcode, reservation_date as \"Reservation Date\", "
+                + "users.display_name as \"Member Name\" FROM reservations "
+                + "LEFT JOIN book_items ON reservations.book_item_id = book_items.id "
+                + "LEFT JOIN books ON book_items.book_id = books.id "
+                + "LEFT JOIN users ON reservations.user_id = users.id "
+                + "WHERE users.id = ?";
+        DBUtils.setStmt(sql);
+        DBUtils.setObject(1, userId, Types.BIGINT);
+        return DBUtils.executeQuery();
+    }
+        
+    public static void cancelReservation(int reservationId) {
+        DBUtils.setStmt("DELETE FROM reservations WHERE id = ?");
+        DBUtils.setObject(1, reservationId, Types.BIGINT);
         DBUtils.executeUpdate();
     }
 }

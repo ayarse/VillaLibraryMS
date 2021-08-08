@@ -24,6 +24,9 @@ public class FindBooks extends javax.swing.JFrame {
     public FindBooks() {
         initComponents();
         btnSearch.doClick();
+        if(!SessionData.currentUser.getRole().name.equals("admin")) {
+            btnDelete.setEnabled(false);
+        }
     }
 
     private enum SearchMode {
@@ -63,6 +66,7 @@ public class FindBooks extends javax.swing.JFrame {
         btnDelete1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("All Books");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

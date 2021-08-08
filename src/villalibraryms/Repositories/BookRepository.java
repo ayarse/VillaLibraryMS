@@ -344,4 +344,21 @@ public class BookRepository {
         return false;
     }
 
+    public static ResultSet myBooks(int userId) {
+//        String sql = "SELECT books.title, borrowed_date,  FROM borrows "
+//                + "LEFT JOIN book_items ON book_items.id = borrows.book_item_id LEFT JOIN books ON books.id = book_items.book_id LEFT JOIN authors on "
+//                + "WHERE borrows.user_id = ?";
+        String sql = "SELECT borrows.id as ID, books.title as Title, authors.`name` as Author, books.isbn as ISBN, book_items.barcode as Barcode, "
+                + "books.publisher as Publisher, users.display_name as \"Borrowed By\", borrows.borrowed_date as \"Borrowed Date\", "
+                + "(CASE WHEN borrows.returned_date IS NOT NULL THEN \"Yes\" ELSE \"No\" END) as \"Returned\" FROM borrows "
+                + "LEFT JOIN book_items ON borrows.book_item_id = book_items.id "
+                + "LEFT JOIN books on book_items.book_id = books.id "
+                + "LEFT JOIN authors ON books.author_id = authors.id "
+                + "LEFT JOIN users ON users.id = borrows.user_id "
+                + "WHERE users.id = ? ORDER BY borrows.borrowed_date DESC";
+        DBUtils.setStmt(sql);
+        DBUtils.setObject(1, userId, Types.BIGINT);
+        return DBUtils.executeQuery();
+    }
+
 }

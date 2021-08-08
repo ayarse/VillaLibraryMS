@@ -5,18 +5,12 @@
  */
 package villalibraryms;
 
-import villalibraryms.Util.SqlStatements;
 import villalibraryms.Util.DBUtils;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import net.proteanit.sql.DbUtils;
 import java.sql.*;
-import java.util.ArrayList;
+import villalibraryms.Forms.FindBooks;
+import villalibraryms.Forms.MyBooks;
+import villalibraryms.Forms.MyFines;
+import villalibraryms.Forms.MyReservations;
 
 /**
  *
@@ -32,7 +26,7 @@ public class UserMenu extends javax.swing.JFrame {
 
     public UserMenu() {
         initComponents();
-        jLabel1.setText(jLabel1.getText().replace("{user}", VillaLibraryMS.SessionData.loggedInUsername));
+        jLabel1.setText(jLabel1.getText().replace("{user}", VillaLibraryMS.SessionData.currentUser.getDisplayName()));
     }
 
     /**
@@ -44,110 +38,138 @@ public class UserMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnViewBooks = new javax.swing.JButton();
-        btnMyBooks = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        btnFindBooks = new javax.swing.JButton();
+        btnFindBooks1 = new javax.swing.JButton();
+        btnFindBooks2 = new javax.swing.JButton();
+        btnFindBooks3 = new javax.swing.JButton();
+        btnFindBooks4 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("User Dashboard");
         setResizable(false);
 
-        btnViewBooks.setText("View Books");
-        btnViewBooks.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewBooksActionPerformed(evt);
-            }
-        });
-
-        btnMyBooks.setText("My Books");
-        btnMyBooks.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMyBooksActionPerformed(evt);
-            }
-        });
-
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         jLabel1.setText("Hello {user}! Welcome to your dashboard.");
+
+        btnFindBooks.setText("All Books");
+        btnFindBooks.setToolTipText("");
+        btnFindBooks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFindBooksActionPerformed(evt);
+            }
+        });
+
+        btnFindBooks1.setText("My Books");
+        btnFindBooks1.setToolTipText("");
+        btnFindBooks1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFindBooks1ActionPerformed(evt);
+            }
+        });
+
+        btnFindBooks2.setText("My Fines");
+        btnFindBooks2.setToolTipText("");
+        btnFindBooks2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFindBooks2ActionPerformed(evt);
+            }
+        });
+
+        btnFindBooks3.setText("Notifications");
+        btnFindBooks3.setToolTipText("");
+        btnFindBooks3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFindBooks3ActionPerformed(evt);
+            }
+        });
+
+        btnFindBooks4.setText("My Reservations");
+        btnFindBooks4.setToolTipText("");
+        btnFindBooks4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFindBooks4ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Villa College Library");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(140, 140, 140)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnViewBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnMyBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(140, Short.MAX_VALUE))
+                        .addGap(118, 118, 118)
+                        .addComponent(btnFindBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFindBooks1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFindBooks2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 140, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(202, 202, 202))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(195, 195, 195)
+                .addComponent(btnFindBooks4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnFindBooks3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(83, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
                 .addComponent(jLabel1)
-                .addGap(27, 27, 27)
+                .addGap(141, 141, 141)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnMyBooks)
-                    .addComponent(btnViewBooks))
-                .addGap(124, 124, 124))
+                    .addComponent(btnFindBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFindBooks1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFindBooks2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnFindBooks3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFindBooks4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnViewBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewBooksActionPerformed
-        JFrame f = new JFrame("Books Available"); //View books stored in database
-        try {
-            Statement stmt = connection.createStatement(); //connect to database
-            ResultSet rs = stmt.executeQuery(SqlStatements.ALL_BOOKS);
-            JTable book_list = new JTable(); //show data in table format
-            book_list.setModel(DbUtils.resultSetToTableModel(rs));
+    private void btnFindBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindBooksActionPerformed
+        
+        new FindBooks().setVisible(true);
+    }//GEN-LAST:event_btnFindBooksActionPerformed
 
-            JScrollPane scrollPane = new JScrollPane(book_list); //enable scroll bar
+    private void btnFindBooks1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindBooks1ActionPerformed
+       new MyBooks().setVisible(true);
+    }//GEN-LAST:event_btnFindBooks1ActionPerformed
 
-            f.add(scrollPane); //add scroll bar
-            f.setSize(800, 400); //set dimensions of view books frame
-            f.setVisible(true);
-            f.setLocationRelativeTo(null);
-        } catch (SQLException e1) {
-            // TODO Auto-generated catch block
-            JOptionPane.showMessageDialog(null, e1);
-        }
-    }//GEN-LAST:event_btnViewBooksActionPerformed
+    private void btnFindBooks2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindBooks2ActionPerformed
+        new MyFines().setVisible(true);
+    }//GEN-LAST:event_btnFindBooks2ActionPerformed
 
-    private void btnMyBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyBooksActionPerformed
+    private void btnFindBooks3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindBooks3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFindBooks3ActionPerformed
 
-        JFrame f = new JFrame("My Books"); //View books issued by user
-        int UID_int = Integer.parseInt(VillaLibraryMS.SessionData.Uid); //Pass user ID
-
-        //.iid,issued.uid,issued.bid,issued.issued_date,issued.return_date,issued,
-        //retrieve data
-        String sql = "select distinct issued.*,books.bname,books.genre,books.price from issued,books " + "where ((issued.uid=" + UID_int + ") and (books.bid in (select bid from issued where issued.uid=" + UID_int + "))) group by iid";
-        String sql1 = "select bid from issued where uid=" + UID_int;
-        try {
-            Statement stmt = connection.createStatement();
-            //store in array
-            ArrayList books_list = new ArrayList();
-
-            ResultSet rs = stmt.executeQuery(sql);
-            JTable book_list = new JTable(); //store data in table format
-            book_list.setModel(DbUtils.resultSetToTableModel(rs));
-            //enable scroll bar
-            JScrollPane scrollPane = new JScrollPane(book_list);
-
-            f.add(scrollPane); //add scroll bar
-            f.setSize(800, 400); //set dimensions of my books frame
-            f.setVisible(true);
-            f.setLocationRelativeTo(null);
-        } catch (SQLException e1) {
-            // TODO Auto-generated catch block
-            JOptionPane.showMessageDialog(null, e1);
-        }
-
-    }//GEN-LAST:event_btnMyBooksActionPerformed
+    private void btnFindBooks4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindBooks4ActionPerformed
+        new MyReservations().setVisible(true);
+    }//GEN-LAST:event_btnFindBooks4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,8 +207,12 @@ public class UserMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnMyBooks;
-    private javax.swing.JButton btnViewBooks;
+    private javax.swing.JButton btnFindBooks;
+    private javax.swing.JButton btnFindBooks1;
+    private javax.swing.JButton btnFindBooks2;
+    private javax.swing.JButton btnFindBooks3;
+    private javax.swing.JButton btnFindBooks4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }
