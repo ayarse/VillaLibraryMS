@@ -28,15 +28,30 @@ import villalibraryms.Models.User;
  */
 public class UserRepository {
 
+    public static User authenticate(String username, String password) {
+        DBUtils.setStmt(SqlStatements.AUTH);
+        DBUtils.setObject(1, username, Types.VARCHAR);
+        DBUtils.setObject(2, password, Types.VARCHAR);
+        ResultSet rs = DBUtils.executeQuery();
+        try {
+            if (rs.next()) {
+                return find(rs.getInt("id"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public static ResultSet getAllUsers() {
         DBUtils.setStmt(SqlStatements.ALL_USERS);
         ResultSet rs = DBUtils.executeQuery();
         return rs;
     }
-    
+
     public static ResultSet getAllUsers(String search) {
         DBUtils.setStmt(SqlStatements.ALL_USERS_LIKE);
-        DBUtils.setObject(1, "%"+search+"%", Types.VARCHAR);
+        DBUtils.setObject(1, "%" + search + "%", Types.VARCHAR);
         ResultSet rs = DBUtils.executeQuery();
         return rs;
     }
@@ -87,13 +102,13 @@ public class UserRepository {
         }
         return null;
     }
-    
+
     public static User findUserByBarcode(String barcode) {
         DBUtils.setStmt("SELECT `user_id` FROM `membership_cards` WHERE `barcode` = ?");
         DBUtils.setObject(1, barcode, Types.VARCHAR);
         ResultSet rs = DBUtils.executeQuery();
         try {
-            if(rs.next()) {
+            if (rs.next()) {
                 return find(rs.getInt("user_id"));
             }
         } catch (SQLException ex) {

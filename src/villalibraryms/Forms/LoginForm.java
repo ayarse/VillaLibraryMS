@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import java.sql.Connection;
 import villalibraryms.AdminMenu;
 import villalibraryms.Models.Role;
+import villalibraryms.Models.User;
 import villalibraryms.Repositories.UserRepository;
 import villalibraryms.Util.SqlStatements;
 import villalibraryms.UserMenu;
@@ -128,37 +129,19 @@ public class LoginForm extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Please enter password"); //Display dialog box with the message
         } else { //If both the fields are present then to login the user, check wether the user exists already
-            try {
-                PreparedStatement pstat = connection.prepareStatement(SqlStatements.AUTH,
-                        ResultSet.TYPE_SCROLL_SENSITIVE,
-                        ResultSet.CONCUR_UPDATABLE);
-                pstat.setString(1, username);
-                pstat.setString(2, password);
-                ResultSet rs = pstat.executeQuery(); //Execute query
-                if (rs.next() == false) { //Move pointer below
-                    System.out.print("No user");
-                    JOptionPane.showMessageDialog(null, "Wrong Username/Password!"); //Display Message
-
-                } else {
-                    this.dispose();
-                    rs.beforeFirst();  //Move the pointer above
-                    while (rs.next()) {
-                        String userRoleId = rs.getString("role_id"); //user is admin
-                        Role userRole = Role.find(Integer.parseInt(userRoleId));
-                        String userId = rs.getString("id"); //Get user ID of the user.
+            User user = UserRepository.authenticate(username, password);
+            if(user != null) {
                         VillaLibraryMS.SessionData.loggedInUsername = username;
-                        VillaLibraryMS.SessionData.Uid = userId;
-                        VillaLibraryMS.SessionData.currentUser = UserRepository.find(Integer.parseInt(userId));
-                        
-                        if (userRole.name.equals("admin")) {
-                            new AdminMenu().setVisible(true);
-                        } else {
-                            new UserMenu().setVisible(true);
-                        }
-                    }
+                        VillaLibraryMS.SessionData.Uid = Integer.valueOf(user.getId()).toString();
+                        VillaLibraryMS.SessionData.currentUser = user;
+                        Role userRole = user.getRole();
+                if (userRole.name.equals("admin")) {
+                    new AdminMenu().setVisible(true);
+                } else {
+                    new UserMenu().setVisible(true);
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } else {
+                JOptionPane.showMessageDialog(null, "Wrong Username/Password!");
             }
         }
 
