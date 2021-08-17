@@ -11,6 +11,7 @@ import villalibraryms.Forms.FindBooks;
 import villalibraryms.Forms.MyBooks;
 import villalibraryms.Forms.MyFines;
 import villalibraryms.Forms.MyReservations;
+import villalibraryms.Forms.Notifications;
 
 /**
  *
@@ -164,7 +165,7 @@ public class UserMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFindBooks2ActionPerformed
 
     private void btnFindBooks3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindBooks3ActionPerformed
-        // TODO add your handling code here:
+        new Notifications().setVisible(true);
     }//GEN-LAST:event_btnFindBooks3ActionPerformed
 
     private void btnFindBooks4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindBooks4ActionPerformed

@@ -288,6 +288,8 @@ public class ReturnBook extends javax.swing.JFrame {
             msg = "Book has been returned with fine.";
         }
         JOptionPane.showMessageDialog(null, msg);
+        MiscRepository.generateReturnNotifications(borrowedBook);
+
         this.dispose();
     }//GEN-LAST:event_btnReturnBookActionPerformed
 

@@ -9,6 +9,9 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import villalibraryms.Models.Borrow;
 import villalibraryms.Util.DBUtils;
 import villalibraryms.Models.Rack;
 import villalibraryms.Models.Subject;
@@ -95,7 +98,7 @@ public class MiscRepository {
         DBUtils.setObject(1, userId, Types.BIGINT);
         return DBUtils.executeQuery();
     }
-    
+
     public static ResultSet myReservations(int userId) {
         String sql = "SELECT reservations.id as ID, books.title as Title, book_items.barcode as Barcode, reservation_date as \"Reservation Date\", "
                 + "users.display_name as \"Member Name\" FROM reservations "
@@ -107,10 +110,66 @@ public class MiscRepository {
         DBUtils.setObject(1, userId, Types.BIGINT);
         return DBUtils.executeQuery();
     }
-        
+
     public static void cancelReservation(int reservationId) {
         DBUtils.setStmt("DELETE FROM reservations WHERE id = ?");
         DBUtils.setObject(1, reservationId, Types.BIGINT);
         DBUtils.executeUpdate();
     }
+
+    public static List<String> getNotifications(int userId) {
+        List<String> notifications = new ArrayList<String>();
+        DBUtils.setStmt("SELECT * FROM `notifications` WHERE user_id = ? ORDER BY created_at DESC");
+        DBUtils.setObject(1, userId, Types.BIGINT);
+        ResultSet rs = DBUtils.executeQuery();
+        try {
+            while (rs.next()) {
+                notifications.add(rs.getString("content"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MiscRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return notifications;
+    }
+
+    public static List<Integer> getUsersWhoReservedBookItem(int bookItemId) {
+        List<Integer> users = new ArrayList<>();
+        DBUtils.setStmt("SELECT user_id FROM reservations WHERE book_item_id = ?");
+        DBUtils.setObject(1, bookItemId, Types.BIGINT);
+        ResultSet rs = DBUtils.executeQuery();
+        try {
+            while (rs.next()) {
+                int userId = rs.getInt("user_id");
+                users.add(userId);
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MiscRepository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return users;
+    }
+
+    public static void generateReturnNotifications(Borrow borrow) {
+        int bookItemId = borrow.getBook().getBookItemId();
+        String bookTitle = borrow.getBook().getTitle();
+        List<Integer> users = getUsersWhoReservedBookItem(bookItemId);
+
+        System.out.println(bookItemId);
+        System.out.println(bookTitle);
+
+        for (Integer userId : users) {
+            System.out.println(userId);
+            System.out.println(bookItemId);
+            System.out.println(bookTitle);
+            DBUtils.setStmt("INSERT INTO notifications (user_id, book_item_id, content, created_at, notification_type_id) VALUES (?,?,?,?,?)");
+            DBUtils.setObject(1, userId, Types.BIGINT);
+            DBUtils.setObject(2, bookItemId, Types.BIGINT);
+            DBUtils.setObject(3, "The book you reserved, " + bookTitle + ", is now available!", Types.VARCHAR);
+            DBUtils.setObject(4, LocalDate.now(), Types.DATE);
+            DBUtils.setObject(5, 1, Types.BIGINT); // Notification Type: RESERVED_BOOK_AVAILABLE
+            DBUtils.executeUpdate();
+
+        }
+    }
+
 }
