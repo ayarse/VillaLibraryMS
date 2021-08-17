@@ -36,13 +36,6 @@ public class VillaLibraryMS {
 //        System.out.println(faker.book().author());
 
         db = DBUtils.getInstance();
-        try {
-            Statement stmt = db.getConnection().createStatement();
-            stmt.executeUpdate(SqlStatements.USE_DB);
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        connection = db.getConnection();
         new LoginForm().setVisible(true);
     }
 }
