@@ -24,7 +24,7 @@ public class DBUtils {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 //            System.out.println("Loaded driver");
-            Dotenv dotenv = Dotenv.configure().directory("assets").filename("env").load();
+            Dotenv dotenv = Dotenv.configure().filename("env").load();
             String mysqlHost = dotenv.get("MYSQL_HOST");
             String mysqlPort = dotenv.get("MYSQL_PORT");
             String mysqlDatabase = dotenv.get("MYSQL_DATABASE");
