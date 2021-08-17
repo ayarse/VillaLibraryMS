@@ -14,6 +14,7 @@ import villalibraryms.Models.BookItem;
 import villalibraryms.Models.Borrow;
 import villalibraryms.Models.User;
 import villalibraryms.Repositories.BookRepository;
+import villalibraryms.Repositories.MiscRepository;
 
 /**
  *
@@ -260,9 +261,9 @@ public class ReturnBook extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnScanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScanActionPerformed
-        
+
         Borrow borrow = BookRepository.findBorrowedByBarcode(txtBarcode.getText());
-        if(borrow == null) {
+        if (borrow == null) {
             JOptionPane.showMessageDialog(null, "Borrowed book record not found.");
             clearLabels();
             return;
@@ -279,9 +280,10 @@ public class ReturnBook extends javax.swing.JFrame {
     }//GEN-LAST:event_btnScanActionPerformed
 
     private void btnReturnBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnBookActionPerformed
-       BookRepository.returnBook(borrowedBook, LocalDate.now());
+
+        BookRepository.returnBook(borrowedBook, LocalDate.now());
         String msg = "Book has been returned.";
-        if(fineAmt > 0.0) {
+        if (fineAmt > 0.0) {
             BookRepository.createFine(borrowedBook, LocalDate.now(), fineAmt);
             msg = "Book has been returned with fine.";
         }
@@ -300,22 +302,22 @@ public class ReturnBook extends javax.swing.JFrame {
         lblMembershipCard.setText(user.getMembershipCard().getBarcode());
         lblBorrowerRole.setText(user.getRole().toString());
         lblBorrowedDate.setText(book.getBorrowedDate().toLocalDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)));
-        
+
         lblFineAmt.setText("MVR " + fineAmt + " (MVR 2.50 / day)");
         lblOverdue.setText(overdue + " Day(s)");
     }
-    
+
     private void calculateFine() {
-       LocalDate borrowedDate = borrowedBook.getBorrowedDate().toLocalDate();
-       LocalDate dueDate = borrowedDate.plusDays(20);
-       LocalDate today = LocalDate.now();
-       if(LocalDate.now().isAfter(dueDate)) {
-           overdue = Duration.between(dueDate.atStartOfDay(), today.atStartOfDay()).toDays();
-           fineAmt = overdue * 2.5;
-       } else {
-           fineAmt = 0.0;
-           overdue = 0;
-       }
+        LocalDate borrowedDate = borrowedBook.getBorrowedDate().toLocalDate();
+        LocalDate dueDate = borrowedDate.plusDays(20);
+        LocalDate today = LocalDate.now();
+        if (LocalDate.now().isAfter(dueDate)) {
+            overdue = Duration.between(dueDate.atStartOfDay(), today.atStartOfDay()).toDays();
+            fineAmt = overdue * 2.5;
+        } else {
+            fineAmt = 0.0;
+            overdue = 0;
+        }
     }
 
     private void clearLabels() {
@@ -328,7 +330,7 @@ public class ReturnBook extends javax.swing.JFrame {
         lblBorrowerRole.setText("-");
         lblFineAmt.setText("-");
         lblOverdue.setText("-");
-        
+
     }
 
     /**
