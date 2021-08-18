@@ -11,11 +11,6 @@ import villalibraryms.Models.User;
  */
 public class VillaLibraryMS {
 
-    public static class ex {
-
-        public static int days = 0;
-    }
-
     public static class SessionData {
 
         public static String loggedInUsername;
