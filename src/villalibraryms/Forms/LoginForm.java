@@ -140,6 +140,7 @@ public class LoginForm extends javax.swing.JFrame {
                 } else {
                     new UserMenu().setVisible(true);
                 }
+                this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Wrong Username/Password!");
             }
