@@ -397,7 +397,7 @@ public class IssueBook extends javax.swing.JFrame {
             return false;
         }
         
-        if(BookRepository.borrowedCount(user.getId()) >= 4) {
+        if(BookRepository.borrowedCount(user.getId()) >= BookRepository.MAX_BORROWS) {
             selectedUser = null;
             setMemberError("Member cannot borrow more than 4 books.");
             return false;

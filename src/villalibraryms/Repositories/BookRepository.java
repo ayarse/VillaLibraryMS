@@ -27,6 +27,9 @@ import villalibraryms.Util.SqlStatements;
  * @author ayasnasih
  */
 public class BookRepository {
+    
+    public static int MAX_BORROWS = 4;
+    public static int MAX_BORROW_DAYS = 20;
 
     public static void addBook(
             String title,

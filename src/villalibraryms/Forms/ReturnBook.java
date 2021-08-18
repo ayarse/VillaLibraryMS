@@ -311,7 +311,7 @@ public class ReturnBook extends javax.swing.JFrame {
 
     private void calculateFine() {
         LocalDate borrowedDate = borrowedBook.getBorrowedDate().toLocalDate();
-        LocalDate dueDate = borrowedDate.plusDays(20);
+        LocalDate dueDate = borrowedDate.plusDays(BookRepository.MAX_BORROW_DAYS);
         LocalDate today = LocalDate.now();
         if (LocalDate.now().isAfter(dueDate)) {
             overdue = Duration.between(dueDate.atStartOfDay(), today.atStartOfDay()).toDays();
