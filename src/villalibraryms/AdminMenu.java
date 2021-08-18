@@ -5,13 +5,10 @@
  */
 package villalibraryms;
 
-import villalibraryms.Util.SqlStatements;
 import villalibraryms.Forms.IssueBook;
 import villalibraryms.Forms.AddBook;
 import villalibraryms.Util.DBUtils;
 import java.sql.*;
-import javax.swing.*;
-import net.proteanit.sql.DbUtils;
 import villalibraryms.Forms.FindBooks;
 import villalibraryms.Forms.IssuedBooks;
 import villalibraryms.Forms.ManageMembers;
@@ -55,7 +52,6 @@ public class AdminMenu extends javax.swing.JFrame {
         btnFines = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        btnResetDB1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Administrator Menu");
@@ -133,13 +129,6 @@ public class AdminMenu extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Villa College Library");
 
-        btnResetDB1.setText("Logout");
-        btnResetDB1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetDB1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -149,13 +138,10 @@ public class AdminMenu extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnResetDB, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnResetDB1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnResetDB, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnViewIssuedBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addGap(0, 540, Short.MAX_VALUE))
+                        .addGap(0, 674, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -203,9 +189,7 @@ public class AdminMenu extends javax.swing.JFrame {
                 .addGap(79, 79, 79)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnResetDB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnResetDB1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnResetDB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(91, 91, 91))
         );
 
@@ -246,11 +230,6 @@ public class AdminMenu extends javax.swing.JFrame {
     private void btnFinesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinesActionPerformed
         new ViewFines().setVisible(true);
     }//GEN-LAST:event_btnFinesActionPerformed
-
-    private void btnResetDB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetDB1ActionPerformed
-        this.dispose();
-        VillaLibraryMS.logout();
-    }//GEN-LAST:event_btnResetDB1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -294,7 +273,6 @@ public class AdminMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnIssueBook;
     private javax.swing.JButton btnManageMembers;
     private javax.swing.JButton btnResetDB;
-    private javax.swing.JButton btnResetDB1;
     private javax.swing.JButton btnReturnBook;
     private javax.swing.JButton btnViewIssuedBooks;
     private javax.swing.JLabel jLabel1;

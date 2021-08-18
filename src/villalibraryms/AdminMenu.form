@@ -30,15 +30,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnResetDB" min="-2" pref="136" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="btnResetDB1" min="-2" pref="136" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="btnResetDB" alignment="0" min="-2" pref="136" max="-2" attributes="0"/>
                           <Component id="btnViewIssuedBooks" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                           <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="540" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="674" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -102,10 +98,7 @@
               <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnResetDB" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="btnResetDB1" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-              </Group>
+              <Component id="btnResetDB" min="-2" pref="40" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -215,14 +208,6 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Villa College Library"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnResetDB1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Logout"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnResetDB1ActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>
