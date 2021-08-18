@@ -26,4 +26,12 @@ public class VillaLibraryMS {
         db = DBUtils.getInstance();
         new LoginForm().setVisible(true);
     }
+    
+    public static void logout() {
+        SessionData.loggedInUsername = null;
+        SessionData.Uid = null;
+        SessionData.currentUser = null;
+        
+        new LoginForm().setVisible(true);
+    }
 }
