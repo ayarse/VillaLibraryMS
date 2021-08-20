@@ -10,8 +10,8 @@ import villalibraryms.Repositories.BookRepository;
 import villalibraryms.Util.DBUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 import villalibraryms.Models.Book;
-import villalibraryms.Models.BookItem;
 import villalibraryms.Models.Borrow;
 
 /**
@@ -25,7 +25,7 @@ public class VillaLibraryMSTest {
     }
 
     @Test
-    public void testDbConnection() {
+    public void testDbConnection() throws Exception {
         Connection db = DBUtils.getConnection();
         assertNotNull(db);
         System.out.println("[Test] DB Connection successful.");

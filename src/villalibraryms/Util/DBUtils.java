@@ -20,7 +20,7 @@ public class DBUtils {
     private static PreparedStatement stmt = null;
     private static ResultSet rs = null;
 
-    private DBUtils() {
+    private DBUtils() throws Exception {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 //            System.out.println("Loaded driver");
@@ -36,11 +36,12 @@ public class DBUtils {
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex);
+            throw ex;           
         }
     }
 
     // Singleton
-    public static DBUtils getInstance() {
+    public static DBUtils getInstance() throws Exception {
         if (instance == null) {
             instance = new DBUtils();
         }
@@ -48,7 +49,7 @@ public class DBUtils {
         return instance;
     }
 
-    public static Connection getConnection() {
+    public static Connection getConnection() throws Exception {
         if (con == null) {
             instance = new DBUtils();
         }

@@ -5,8 +5,6 @@
  */
 package villalibraryms;
 
-import villalibraryms.Util.DBUtils;
-import java.sql.*;
 import villalibraryms.Forms.FindBooks;
 import villalibraryms.Forms.MyBooks;
 import villalibraryms.Forms.MyFines;
@@ -22,8 +20,6 @@ public class UserMenu extends javax.swing.JFrame {
     /**
      * Creates new form UserMenu
      */
-    private DBUtils db = DBUtils.getInstance();
-    private Connection connection = db.getConnection();
 
     public UserMenu() {
         initComponents();

@@ -3,6 +3,8 @@ package villalibraryms;
 import villalibraryms.Forms.LoginForm;
 import villalibraryms.Util.DBUtils;
 import java.sql.Connection;
+import java.sql.SQLSyntaxErrorException;
+import villalibraryms.Forms.SetupSystem;
 import villalibraryms.Models.User;
 
 /**
@@ -23,15 +25,20 @@ public class VillaLibraryMS {
 
     public static void main(String[] args) {
 
-        db = DBUtils.getInstance();
-        new LoginForm().setVisible(true);
+        try {
+            db = DBUtils.getInstance();
+            new LoginForm().setVisible(true);
+        } catch (Exception ex) {
+            new SetupSystem().setVisible(true);
+        }
+
     }
-    
+
     public static void logout() {
         SessionData.loggedInUsername = null;
         SessionData.Uid = null;
         SessionData.currentUser = null;
-        
+
         new LoginForm().setVisible(true);
     }
 }

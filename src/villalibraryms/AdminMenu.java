@@ -7,8 +7,6 @@ package villalibraryms;
 
 import villalibraryms.Forms.IssueBook;
 import villalibraryms.Forms.AddBook;
-import villalibraryms.Util.DBUtils;
-import java.sql.*;
 import villalibraryms.Forms.FindBooks;
 import villalibraryms.Forms.IssuedBooks;
 import villalibraryms.Forms.ManageMembers;
@@ -21,8 +19,6 @@ import villalibraryms.Forms.ViewFines;
  */
 public class AdminMenu extends javax.swing.JFrame {
 
-    private DBUtils db = DBUtils.getInstance();
-    private Connection connection = db.getConnection();
 
     /**
      * Creates new form AdminMenu

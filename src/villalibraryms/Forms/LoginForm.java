@@ -5,17 +5,12 @@
  */
 package villalibraryms.Forms;
 
-import villalibraryms.Util.DBUtils;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
-import java.sql.Connection;
 import villalibraryms.AdminMenu;
 import villalibraryms.Models.Role;
 import villalibraryms.Models.User;
 import villalibraryms.Repositories.UserRepository;
-import villalibraryms.Util.SqlStatements;
 import villalibraryms.UserMenu;
 import villalibraryms.VillaLibraryMS;
 
@@ -28,11 +23,8 @@ public class LoginForm extends javax.swing.JFrame {
     /**
      * Creates new form LoginForm
      */
-    private Connection connection;
-
     public LoginForm() {
         initComponents();
-        connection = DBUtils.getInstance().getConnection();
     }
 
     /**
