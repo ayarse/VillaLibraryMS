@@ -27,11 +27,10 @@ public class Role {
     }
 
     public static Role find(int id) {
-        Connection conn = DBUtils.getConnection();
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT name FROM `roles` WHERE id = ?");
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
+            DBUtils.setStmt("SELECT name FROM `roles` WHERE id = ?");
+            DBUtils.setObject(1, id, Types.BIGINT);
+            ResultSet rs = DBUtils.executeQuery();
             while (rs.next()) {
                 Role role = new Role(
                         id,
