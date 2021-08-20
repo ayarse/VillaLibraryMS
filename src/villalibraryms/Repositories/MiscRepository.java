@@ -24,10 +24,10 @@ import villalibraryms.Util.SqlStatements;
 public class MiscRepository {
 
     public static List<Subject> getAllSubjects() {
-        Connection conn = DBUtils.getInstance().getConnection();
         List<Subject> subjects = new ArrayList<Subject>();
         try {
-            ResultSet rs = conn.prepareStatement(SqlStatements.ALL_SUBJECTS).executeQuery();
+            DBUtils.setStmt(SqlStatements.ALL_SUBJECTS);
+            ResultSet rs = DBUtils.executeQuery();
             while (rs.next()) {
                 subjects.add(new Subject(
                         rs.getInt("id"),
@@ -42,10 +42,10 @@ public class MiscRepository {
     }
 
     public static List<Rack> getAllRacks() {
-        Connection conn = DBUtils.getInstance().getConnection();
         List<Rack> racks = new ArrayList<Rack>();
         try {
-            ResultSet rs = conn.prepareStatement(SqlStatements.ALL_RACKS).executeQuery();
+            DBUtils.setStmt(SqlStatements.ALL_RACKS);
+            ResultSet rs = DBUtils.executeQuery();
             while (rs.next()) {
                 racks.add(new Rack(
                         rs.getInt("id"),
