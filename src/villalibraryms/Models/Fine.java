@@ -23,13 +23,13 @@ public class Fine {
         this.paidDate = paidDate;
     }
 
-    int id;
-    int borrowId;
-    Borrow borrow;
-    Date fineDate;
-    double fineAmount;
-    Boolean paid;
-    Date paidDate;
+    private int id;
+    private int borrowId;
+    private Borrow borrow;
+    private Date fineDate;
+    private double fineAmount;
+    private Boolean paid;
+    private Date paidDate;
 
     public int getId() {
         return id;
