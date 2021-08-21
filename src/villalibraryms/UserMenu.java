@@ -23,7 +23,7 @@ public class UserMenu extends javax.swing.JFrame {
 
     public UserMenu() {
         initComponents();
-        jLabel1.setText(jLabel1.getText().replace("{user}", VillaLibraryMS.SessionData.currentUser.getDisplayName()));
+        lblGreeting.setText(lblGreeting.getText().replace("{user}", VillaLibraryMS.SessionData.currentUser.getDisplayName()));
     }
 
     /**
@@ -35,7 +35,7 @@ public class UserMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        lblGreeting = new javax.swing.JLabel();
         btnFindBooks = new javax.swing.JButton();
         btnFindBooks1 = new javax.swing.JButton();
         btnFindBooks2 = new javax.swing.JButton();
@@ -47,8 +47,9 @@ public class UserMenu extends javax.swing.JFrame {
         setTitle("User Dashboard");
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
-        jLabel1.setText("Hello {user}! Welcome to your dashboard.");
+        lblGreeting.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        lblGreeting.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblGreeting.setText("Hello {user}! Welcome to your dashboard.");
 
         btnFindBooks.setText("All Books");
         btnFindBooks.setToolTipText("");
@@ -94,6 +95,7 @@ public class UserMenu extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 102, 204));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/villa_college_logo.png"))); // NOI18N
         jLabel4.setText("Villa College Library");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -116,7 +118,7 @@ public class UserMenu extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(lblGreeting)
                 .addGap(202, 202, 202))
             .addGroup(layout.createSequentialGroup()
                 .addGap(195, 195, 195)
@@ -130,7 +132,7 @@ public class UserMenu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
-                .addComponent(jLabel1)
+                .addComponent(lblGreeting)
                 .addGap(141, 141, 141)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFindBooks, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -209,7 +211,7 @@ public class UserMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnFindBooks2;
     private javax.swing.JButton btnFindBooks3;
     private javax.swing.JButton btnFindBooks4;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel lblGreeting;
     // End of variables declaration//GEN-END:variables
 }
